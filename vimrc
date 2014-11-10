@@ -4,7 +4,7 @@
 set nocompatible    " no vi compatible
 
 filetype off
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
@@ -77,5 +77,7 @@ cmap w!! w !sudo tee > /dev/null %
 " NERDtree configs
 autocmd vimenter * NERDTree " start automatically
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif "close if it's the last window
+autocmd VimEnter * wincmd p
+
 "toggle NERDtree via ctrl+n
 map <C-n> :NERDTreeToggle<CR> 
