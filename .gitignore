@@ -1,0 +1,14 @@
+vim/tmp/backup/*
+vim/tmp/swap/*
+!vim/tmp/backup/placeholder
+!vim/tmp/swap/placeholder
+vim/undo/*
+vim/vim
+vim/session/*
+vim/bundle/*
+!vim/bundle/vim-addon-manager
+vim/syntax/*
+vim/colors/*
+vim/.netrwhist
+*.swp
+*.~
