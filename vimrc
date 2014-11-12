@@ -53,7 +53,7 @@ colors darkblue       " color schema
 highlight ColorColumn ctermbg=blue
 highlight WhiteSpaceEOL ctermbg=darkgreen
 "match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$/
-match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$\|\t/
+"match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$\|\t/
 
 " without matching will not be done in newly opened editor windows
 autocmd WinEnter * match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$\|\t/
