@@ -114,3 +114,4 @@ if ! shopt -oq posix; then
 fi
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH="$PATH:/home/reafle/development/flow/"

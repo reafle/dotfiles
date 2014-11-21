@@ -13,6 +13,7 @@ Bundle 'joshtronic/php.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'kien/ctrlp.vim'
+Bundle 'evidens/vim-twig'
 
 filetype on
 filetype plugin indent on " this plugin does not work well with php
@@ -61,7 +62,7 @@ autocmd WinEnter * match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$\|\t/
 """ custom filetype syntax highlight settings
 
 autocmd BufRead,BufNewFile *.dry set filetype=dry
-autocmd BufRead,BufNewFile *.twig set filetype=htmltwig
+"autocmd BufRead,BufNewFile *.twig set filetype=htmltwig
 autocmd BufRead,BufNewFile *.thtml set filetype=php
 
 " Tell vim to remember certain things when we exit
