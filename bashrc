@@ -114,4 +114,5 @@ if ! shopt -oq posix; then
 fi
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-PATH="$PATH:/home/reafle/development/flow/"
+
+#psgitbranch(){ setpsinfo '$([ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && git rev-parse --symbolic-full-name --abbrev-ref HEAD)'; }
