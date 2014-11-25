@@ -44,9 +44,10 @@ set ttyfast         " smooth changes (indicates fast terminal connection)
 set encoding=UTF-8  " character encoding
 set nobomb          " no Byte Order Mark for UTF-8
 set colorcolumn=80
-set synmaxcol=250               " dont highlight long lines
+set synmaxcol=2250               " dont highlight long lines
 
 let mapleader = ","
+set clipboard=unnamedplus
 
 syntax on           " enable synax highlight
 colors darkblue       " color schema
