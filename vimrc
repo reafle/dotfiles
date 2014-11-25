@@ -11,9 +11,11 @@ Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-endwise'
 Bundle 'joshtronic/php.vim'
 Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
 Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'kien/ctrlp.vim'
 Bundle 'evidens/vim-twig'
+Bundle 'joonty/vdebug'
 
 filetype on
 filetype plugin indent on " this plugin does not work well with php
