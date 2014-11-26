@@ -11,9 +11,11 @@ Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-endwise'
 Bundle 'joshtronic/php.vim'
 Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
 Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'kien/ctrlp.vim'
 Bundle 'lunaru/vim-twig'
+Bundle 'joonty/vdebug'
 
 filetype on
 filetype plugin indent on " this plugin does not work well with php
@@ -42,9 +44,10 @@ set ttyfast         " smooth changes (indicates fast terminal connection)
 set encoding=UTF-8  " character encoding
 set nobomb          " no Byte Order Mark for UTF-8
 set colorcolumn=80
-set synmaxcol=250               " dont highlight long lines
+set synmaxcol=2500               " dont highlight long lines
 
 let mapleader = ","
+set clipboard=unnamedplus
 
 syntax on           " enable synax highlight
 colors darkblue       " color schema
@@ -62,7 +65,7 @@ autocmd WinEnter * match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$\|\t/
 """ custom filetype syntax highlight settings
 
 autocmd BufRead,BufNewFile *.dry set filetype=dry
-autocmd BufRead,BufNewFile *.twig set filetype=htmltwig
+"autocmd BufRead,BufNewFile *.twig set filetype=htmltwig
 autocmd BufRead,BufNewFile *.thtml set filetype=php
 
 " Tell vim to remember certain things when we exit
