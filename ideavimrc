@@ -1,0 +1,25 @@
+set nobackup        " no backup files
+set tabstop=4       " tab width
+set shiftwidth=4    " numbers of spaces when shifting (using >> and <<)
+set expandtab       " use spaces for identation
+set softtabstop=4   " interpret spaces as tabs when pressing Backspace
+set backspace=indent,eol,start " backspace tuneup
+
+set hlsearch        " highlight search
+set laststatus=2    " show status line
+set scrolloff=3     " keep 3 lines when scrolling
+set ignorecase      " ignore case when searching and autocompleting
+set smartindent     " see :help indenting
+set ruler           " show ruler with cursor position
+set incsearch       " do incremental searching (search for pattern while it is being typed)
+"set wrap            " wrap long lines
+set mouse=a         " full mouse support
+set number          " show line numbers
+set ttyfast         " smooth changes (indicates fast terminal connection)
+"set modeline        " last lines in documents can have options for vim editors (see :help modeline)
+"set modelines=5     " number lines checked for modelines (5 is default)
+""" set textwidth=80    " automatically break line when it exceeds this width
+set encoding=UTF-8  " character encoding
+set nobomb          " no Byte Order Mark for UTF-8
+set colorcolumn=80
+set synmaxcol=2500               " dont highlight long lines

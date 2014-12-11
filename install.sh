@@ -6,7 +6,7 @@ dir=~/dotfiles
 olddir=~/.dotfiles.bak
 
 # list of files/folders to symlink in homedir
-files="bashrc bash_profile bash_aliases vim vimrc"
+files="bashrc bash_profile bash_aliases vim vimrc ideavimrc"
 #installs vundle
 cd ~
 git clone https://github.com/gmarik/Vundle.vim.git $dir/vim/bundle/Vundle.vim
