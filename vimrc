@@ -50,7 +50,6 @@ let mapleader = ","
 set clipboard=unnamedplus
 
 syntax on           " enable synax highlight
-colors darkblue       " color schema
 
 """ highlight whitespace in the end of line
 

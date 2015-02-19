@@ -116,3 +116,7 @@ fi
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 #psgitbranch(){ setpsinfo '$([ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && git rev-parse --symbolic-full-name --abbrev-ref HEAD)'; }
+
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

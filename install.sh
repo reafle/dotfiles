@@ -5,6 +5,11 @@
 dir=~/dotfiles
 olddir=~/.dotfiles.bak
 
+
+#install git-completion
+cd $dir
+curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -OL
+
 # list of files/folders to symlink in homedir
 files="bashrc bash_profile bash_aliases vim vimrc ideavimrc"
 #installs vundle
