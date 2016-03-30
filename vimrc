@@ -35,7 +35,7 @@ set smartindent     " see :help indenting
 set ruler           " show ruler with cursor position
 set incsearch       " do incremental searching (search for pattern while it is being typed)
 "set wrap            " wrap long lines
-set mouse=a         " full mouse support
+set mouse=v         " full mouse support
 set number          " show line numbers
 set ttyfast         " smooth changes (indicates fast terminal connection)
 "set modeline        " last lines in documents can have options for vim editors (see :help modeline)
@@ -47,7 +47,7 @@ set colorcolumn=80
 set synmaxcol=2500               " dont highlight long lines
 
 let mapleader = ","
-set clipboard=unnamedplus
+"set clipboard=unnamedplus
 
 syntax on           " enable synax highlight
 

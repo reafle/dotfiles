@@ -117,6 +117,30 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 #psgitbranch(){ setpsinfo '$([ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && git rev-parse --symbolic-full-name --abbrev-ref HEAD)'; }
 
+### Runs eskimi job
+function eskjob() {
+    queueu="$1"
+    shift
+    params="$@"
+    ./cli jobs/worker --queue=${queue} --close-connection=1 --job-reserve-ttl=-1 --debug=1 ${params}
+}
 
+#run eskimi cron
+function eskcron() {
+    name="$1"
+    shift
+    params="$@"
+    ./cli ${name} --debug=1 ${params}
+}
+function redis_clean() {
+    redis-cli KEYS $1 | xargs redis-cli DEL
+}
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+
+### bash git branch prompt
+#GIT_PROMPT_ONLY_IN_REPO=1
+#if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+#        source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+#    fi
