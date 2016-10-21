@@ -8,14 +8,13 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-endwise'
+Plugin 'mileszs/ack.vim'
 Bundle 'joshtronic/php.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
-Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'kien/ctrlp.vim'
-Bundle 'lunaru/vim-twig'
 Bundle 'joonty/vdebug'
+Bundle 'keith/tmux.vim'
 
 filetype on
 filetype plugin indent on " this plugin does not work well with php
@@ -34,7 +33,7 @@ set ignorecase      " ignore case when searching and autocompleting
 set smartindent     " see :help indenting
 set ruler           " show ruler with cursor position
 set incsearch       " do incremental searching (search for pattern while it is being typed)
-"set wrap            " wrap long lines
+set nowrap          " don't wrap long lines
 set mouse=v         " full mouse support
 set number          " show line numbers
 set ttyfast         " smooth changes (indicates fast terminal connection)
@@ -47,24 +46,23 @@ set colorcolumn=80
 set synmaxcol=2500               " dont highlight long lines
 
 let mapleader = ","
-"set clipboard=unnamedplus
+set clipboard=unnamedplus
 
 syntax on           " enable synax highlight
 
 """ highlight whitespace in the end of line
 
-highlight ColorColumn ctermbg=blue
-highlight WhiteSpaceEOL ctermbg=darkgreen
+" highlight ColorColumn ctermbg=blue
+" highlight WhiteSpaceEOL ctermbg=darkgreen
 "match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$/
 "match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$\|\t/
 
 " without matching will not be done in newly opened editor windows
-autocmd WinEnter * match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$\|\t/
+" autocmd WinEnter * match WhiteSpaceEOL /^\s*\ \s*\ $\|\s\+$\|\t/
 
 """ custom filetype syntax highlight settings
 
 autocmd BufRead,BufNewFile *.dry set filetype=dry
-"autocmd BufRead,BufNewFile *.twig set filetype=htmltwig
 autocmd BufRead,BufNewFile *.thtml set filetype=php
 
 " Tell vim to remember certain things when we exit
@@ -79,9 +77,12 @@ set viminfo='10,\"100,:20,%,n~/.viminfo
 cmap w!! w !sudo tee > /dev/null % 
 
 " NERDtree configs
-autocmd vimenter * NERDTree " start automatically
+" autocmd vimenter * NERDTree " start automatically
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif "close if it's the last window
 autocmd VimEnter * wincmd p
+
+" Allow ctrlp to search through hidden files
+let g:ctrlp_show_hidden = 1
 
 "toggle NERDtree via ctrl+n
 map <C-n> :NERDTreeToggle<CR> 
