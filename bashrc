@@ -187,9 +187,16 @@ function redis_clean() {
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
+
+### bash git branch prompt
+#GIT_PROMPT_ONLY_IN_REPO=1
+#if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+#        source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
+#    fi
+
 ### tmux aliases
-if command -v tmux > /dev/null 2>&1; then
-    alias tmux='tmux -2'
+if $(type tmux > /dev/null 2>&1); then
+    alias tmux='tmux'
     alias ta='tmux attach -t'
     alias tnew='tmux new -s'
     alias tls='tmux ls'
