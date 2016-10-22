@@ -46,7 +46,6 @@ set colorcolumn=80
 set synmaxcol=2500               " dont highlight long lines
 
 let mapleader = ","
-set clipboard=unnamedplus
 
 syntax on           " enable synax highlight
 
@@ -73,6 +72,8 @@ autocmd BufRead,BufNewFile *.thtml set filetype=php
 "  n... :  where to save the viminfo files
 set viminfo='10,\"100,:20,%,n~/.viminfo
 
+set clipboard=unnamed
+
 " save file with sudo
 cmap w!! w !sudo tee > /dev/null % 
 
@@ -81,8 +82,19 @@ cmap w!! w !sudo tee > /dev/null %
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif "close if it's the last window
 autocmd VimEnter * wincmd p
 
+
+""""""""""""""" Plugin configurations
+" Vdebug
+" Break only on breakpoints
+let g:vdebug_options = {}
+let g:vdebug_options["break_on_open"] = 0
+
+" Ctrlp
 " Allow ctrlp to search through hidden files
 let g:ctrlp_show_hidden = 1
 
-"toggle NERDtree via ctrl+n
+"" NerdTREE
+"toggle via ctrl+n
 map <C-n> :NERDTreeToggle<CR> 
+
+
