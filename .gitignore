@@ -12,3 +12,4 @@ vim/colors/*
 vim/.netrwhist
 *.swp
 *.~
+git-completion.bash
