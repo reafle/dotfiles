@@ -46,21 +46,47 @@ set number          " show line numbers
 set ttyfast         " smooth changes (indicates fast terminal connection)
 set encoding=UTF-8  " character encoding
 set nobomb          " no Byte Order Mark for UTF-8
-set colorcolumn=80
-set synmaxcol=2500  " dont highlight long lines
+set colorcolumn=0
+set synmaxcol=3000  " dont highlight long lines
 set textwidth=0     " automatically break line when it exceeds this width
 set nolist          " dont split long lines to several lines upon editing that line
+
+set winheight=15    " auto resize active split to 30 lines
+set winminheight=5  " min split height is 5 lines
+
 
 syntax on           " enable synax highlight
 
 " append current dir to the path
 set path+=**
 
-" use TAB for :find and other file command suggestions
+"" wildmenu - use TAB for :find and other file command suggestions
+"" TODO: configure
+
 set wildmenu
+set wildmode=list:longest,full
+
+set wildignore+=.hg,.git,.svn              " Version control
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.1st,*.pyd
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?,*~                         " Vim swap files
+set wildignore+=*.DS_Store                       " OS files
+set wildignore+=*.orig                           " Merge resolution files
+set wildignore+=*.luac,*.pyc,*.pyo,*.so,*.swf,*.swc,*.n
+set wildignore+=*.jpg,*.png,*.bmp,*.jpeg,*.gif
+set wildignore+=composer.lock,composer.phar      " symfony
+set wildignore+=target/
+set wildignore+=/target
+set wildignore+=tmp/
+set wildignore+=/tmp
+set wildignore+=dist/
+set wildignore+=/dist
+set wildignore+=packaged/
+set wildignore+=/packaged
 
 " Leader key (works like vim-special modifier key)  mapped to ,
-let mapleader = ","
+let mapleader = " "
 
 " custom filetype syntax highlight settings
 autocmd BufRead,BufNewFile *.dry set filetype=dry
@@ -81,15 +107,30 @@ set clipboard=unnamed
 " save file with sudo
 cmap w!! w !sudo tee > /dev/null % 
 
+" Enable omnifunc - autocompletion like intellisense
+set omnifunc=syntaxcomplete#Complete
+
+" Ctrl+Space for autocompletion
+"inoremap <C-Space> <C-N>
+
 " Leader R to reload .vimrc 
 nnoremap <Leader>r :so $MYVIMRC<CR>:echohl WarningMsg<Bar>echo "Reloaded .vimrc config...."<Bar>echohl None<CR>
 
 " Leader chl to clear search highlights 
 nnoremap <Leader>chl :noh<CR>
 
+" Add some distinction to active pane
+hi cursorline cterm=none term=none
+highlight CursorLine guibg=#303000 ctermbg=8
+augroup BgHighlight
+    au!
+    au VimEnter,WinEnter,BufWinEnter * setlocal cul
+    au WinLeave * setlocal nocul
+augroup END
 
 
-""""""""""""""" Plugin configurations
+
+""""""""""Plugin configurations"""""""""" 
 
 "" vim-tmux-navigator
 
@@ -115,11 +156,15 @@ nnoremap <silent> <M-/> :TmuxNavigatePrevious<cr>
 
 "" Vdebug
 " Don't break on first line
-let g:vdebug_options = {}
+if (!exists("g:vdebug_options")) 
+    let g:vdebug_options = {}
+endif
 let g:vdebug_options["break_on_open"] = 0
 
 " Leader+e to eval whats selected 
-let g:vdebug_keymap = {}
+if (!exists("g:vdebug_keymap ")) 
+    let g:vdebug_keymap = {}
+endif
 let g:vdebug_keymap["eval_visual"] = "<Leader>e"
 
 
@@ -132,7 +177,7 @@ let g:ctrlp_show_hidden = 1
 "toggle via ctrl+n
 map <C-n> :NERDTreeToggle<CR> 
 " leader + n = reveal current buffer in NERDTree
-nmap <Leader>n :NERDTreeFind<CR>
+nmap <silent> <Leader>n :NERDTreeFind<CR>
 " autocmd vimenter * NERDTree " start automatically
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif "close if it's the last window
 "TODO map s for 'open in split', v for 'open in vsplit'
@@ -145,6 +190,12 @@ command! MakeTags !ctags -R .
 " TODO: make jumping better, currently we get a ton of js minified gibberish as a suggestion
 
 
+""""""""""End plugin configurations""""""""" 
+
+
+
+" switch ; with :
+nnoremap ; :
 
 """ TODO """
 
@@ -154,5 +205,10 @@ command! MakeTags !ctags -R .
 " TODO: check |:help ins-completion|
 
 " TODO find how to not highlight ColorColumn
-" highlight ColorColumn ctermbg=blue
+" highlight ColorColumn ctermbg=
 " highlight WhiteSpaceEOL ctermbg=darkgreen
+
+" Escape mapped to Caps and vice versa
+" TODO: platform independent if possible: 
+"  -  ubuntu: setxkbmap -option caps:swapescape
+
