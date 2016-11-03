@@ -202,3 +202,8 @@ if $(type tmux > /dev/null 2>&1); then
     alias tls='tmux ls'
     alias tkill='tmux kill-session -t'
 fi
+
+### Disable ctrl+s freezing the terminal ###
+stty -ixon
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -8,20 +8,28 @@
 " and functions to work.
 set nocompatible    
 
-" This block defines Vundle plugin installation related configurations
+
+"""""""""" Plugin Installation """""""""" 
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#rc()
+call plug#begin()
 
-Bundle 'gmarik/vundle'
-Plugin 'mileszs/ack.vim'
-Bundle 'joshtronic/php.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'kien/ctrlp.vim'
-Bundle 'joonty/vdebug'
-Bundle 'keith/tmux.vim'
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'mileszs/ack.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+Plug 'keith/tmux.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-fugitive'
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf.vim'
+
+Plug 'joonty/vdebug'
+Plug 'StanAngeloff/php.vim'
+Plug 'tpope/vim-surround'
+
+call plug#end()
+""""""""""Main configuration"""""""""" 
 
 filetype on
 filetype plugin indent on 
@@ -54,7 +62,6 @@ set nolist          " dont split long lines to several lines upon editing that l
 set winheight=15    " auto resize active split to 30 lines
 set winminheight=5  " min split height is 5 lines
 
-
 syntax on           " enable synax highlight
 
 " append current dir to the path
@@ -85,9 +92,6 @@ set wildignore+=/dist
 set wildignore+=packaged/
 set wildignore+=/packaged
 
-" Leader key (works like vim-special modifier key)  mapped to ,
-let mapleader = " "
-
 " custom filetype syntax highlight settings
 autocmd BufRead,BufNewFile *.dry set filetype=dry
 autocmd BufRead,BufNewFile *.thtml,*.tpl set filetype=php
@@ -104,11 +108,14 @@ set viminfo='10,\"100,:20,%,n~/.viminfo
 " perhaps not platform-independent
 set clipboard=unnamed
 
-" save file with sudo
-cmap w!! w !sudo tee > /dev/null % 
-
 " Enable omnifunc - autocompletion like intellisense
 set omnifunc=syntaxcomplete#Complete
+
+
+"""""""""" Key mappings """""""""" 
+
+" Leader key (works like vim-special modifier key) mapped to <Space>
+let mapleader = " "
 
 " Ctrl+Space for autocompletion
 "inoremap <C-Space> <C-N>
@@ -116,18 +123,45 @@ set omnifunc=syntaxcomplete#Complete
 " Leader R to reload .vimrc 
 nnoremap <Leader>r :so $MYVIMRC<CR>:echohl WarningMsg<Bar>echo "Reloaded .vimrc config...."<Bar>echohl None<CR>
 
+" Leader R to reload .vimrc 
+nnoremap <Leader>r :so $MYVIMRC<CR>:echohl WarningMsg<Bar>echo "Reloaded .vimrc config...."<Bar>echohl None<CR>
+
 " Leader chl to clear search highlights 
 nnoremap <Leader>chl :noh<CR>
 
-" Add some distinction to active pane
-hi cursorline cterm=none term=none
-highlight CursorLine guibg=#303000 ctermbg=8
+" save file with sudo
+cmap w!! w !sudo tee > /dev/null % 
+
+" Since <C-a> is tmux prefix, re-bind increment/decrement to <A-a>/<A-x>
+nnoremap <A-a> <C-a>
+nnoremap <A-x> <C-x>
+
+"""""""""" Styling """""""""" 
+
+" Add some distinction to active window
+hi CursorLine guibg=#303000 ctermbg=8 cterm=none term=none
 augroup BgHighlight
     au!
     au VimEnter,WinEnter,BufWinEnter * setlocal cul
     au WinLeave * setlocal nocul
 augroup END
 
+" Tabline styles
+hi TabLine cterm=none ctermfg=DarkBlue ctermbg=none
+hi TabLineSel term=bold cterm=Bold ctermfg=White ctermbg=Green 
+hi TabLineFill ctermfg=none ctermbg=none
+hi Title ctermfg=DarkYellow 
+
+" Menu styles
+hi PMenu ctermfg=DarkGreen ctermbg=LightBlue cterm=none term=none
+hi PMenuSel ctermfg=White ctermbg=DarkBlue cterm=None
+hi PMenuSBar ctermfg=White ctermbg=DarkBlue
+
+" Search style (shoutouts to Khalifa!)
+hi Search ctermfg=black ctermbg=Yellow cterm=none term=none
+
+" TODO  tag
+hi TODO ctermfg=black ctermbg=Yellow cterm=bold term=none
 
 
 """"""""""Plugin configurations"""""""""" 
@@ -153,6 +187,10 @@ nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <M-/> :TmuxNavigatePrevious<cr>
 
+" Bind Leader+hjkl to navigate tabs
+nnoremap <silent> <C-l> :tabnext<CR>
+nnoremap <silent> <C-h> :tabprevious<CR>
+
 
 "" Vdebug
 " Don't break on first line
@@ -168,19 +206,22 @@ endif
 let g:vdebug_keymap["eval_visual"] = "<Leader>e"
 
 
-"" CtrlP
-" Allow ctrlp to search through hidden files
-let g:ctrlp_show_hidden = 1
-
-
 "" NerdTREE
 "toggle via ctrl+n
 map <C-n> :NERDTreeToggle<CR> 
+
 " leader + n = reveal current buffer in NERDTree
 nmap <silent> <Leader>n :NERDTreeFind<CR>
-" autocmd vimenter * NERDTree " start automatically
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif "close if it's the last window
-"TODO map s for 'open in split', v for 'open in vsplit'
+
+" start automatically
+"" autocmd vimenter * NERDTree 
+
+"close if it's the last window
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif 
+
+" maps s for 'open in split', v for 'open in vsplit'
+let NERDTreeMapOpenVSplit="v"
+let NERDTreeMapOpenSplit="s"
 
 
 "" ctags
@@ -188,6 +229,23 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 command! MakeTags !ctags -R .
 " TODO: check |:help tags|
 " TODO: make jumping better, currently we get a ton of js minified gibberish as a suggestion
+
+"" vim-surround
+" add php tag surrounding
+autocmd FileType php let b:surround_45 = "<?php \r ?>"
+
+
+"" FZF
+" Ctrl+s for split
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+noremap <C-p> :FZF<cr>
+
 
 
 """"""""""End plugin configurations""""""""" 
@@ -199,16 +257,11 @@ nnoremap ; :
 
 """ TODO """
 
-" TODO: find out wtf is this
-" autocmd VimEnter * wincmd p
-
 " TODO: check |:help ins-completion|
-
-" TODO find how to not highlight ColorColumn
-" highlight ColorColumn ctermbg=
-" highlight WhiteSpaceEOL ctermbg=darkgreen
 
 " Escape mapped to Caps and vice versa
 " TODO: platform independent if possible: 
 "  -  ubuntu: setxkbmap -option caps:swapescape
+
+" TODO code foldings - |:help folds|
 

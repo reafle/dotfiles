@@ -2,6 +2,8 @@ vim/tmp/backup/*
 vim/tmp/swap/*
 !vim/tmp/backup/placeholder
 !vim/tmp/swap/placeholder
+vim/autoload/*
+vim/plugged/*
 vim/undo/*
 vim/vim
 vim/session/*

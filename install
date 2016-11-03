@@ -18,10 +18,10 @@ cd $dir
 curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -OL
 
 # list of files/folders to symlink in homedir
-files="bashrc bash_profile bash_aliases vim vimrc ideavimrc tmux.conf tmux.theme.conf"
+files="bashrc bash_profile bash_aliases vim vimrc ideavimrc tmux.conf tmux.theme.conf ctags"
 #installs vundle
 cd ~
-git clone https://github.com/gmarik/Vundle.vim.git $dir/vim/bundle/Vundle.vim
+# git clone https://github.com/gmarik/Vundle.vim.git $dir/vim/bundle/Vundle.vim
 
 echo "Creating $olddir for backup of any existing dotfiles in ~"
 mkdir -p $olddir
@@ -34,4 +34,4 @@ for file in $files; do
     ln -s $dir/$file .$file
 done
 
-vim +PluginInstall +qall
+vim +PlugUpdate +qall
