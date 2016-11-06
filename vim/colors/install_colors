@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Dependencies
+command -v wget > /dev/null 2>&1 || { echo >&2 "wget is not installed. Aborting..."; exit 1; }
+command -v vim > /dev/null 2>&1 || { echo >&2 "vim is not installed. Aborting..."; exit 1; }
+
+declare -a themes=(
+"https://raw.githubusercontent.com/ryanpcmcquen/true-monochrome_vim/master/colors/true-monochrome.vim"
+"https://raw.githubusercontent.com/xero/blaquemagick.vim/master/colors/blaquemagick.vim"
+"https://raw.githubusercontent.com/raphamorim/lucario/master/colors/lucario.vim"
+"https://raw.githubusercontent.com/gummesson/stereokai.vim/master/colors/stereokai.vim"
+"https://raw.githubusercontent.com/fcpg/vim-fahrenheit/master/colors/fahrenheit.vim"
+"https://raw.githubusercontent.com/scwood/vim-hybrid/master/colors/hybrid.vim"
+);
+
+colordir=~/dotfiles/vim/colors/
+mkdir -p $colordir
+cd $colordir
+
+for link in "${themes[@]}"
+do
+    wget -nv -N $link 
+done
+
