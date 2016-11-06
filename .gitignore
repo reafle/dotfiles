@@ -7,11 +7,11 @@ vim/plugged/*
 vim/undo/*
 vim/vim
 vim/session/*
-vim/colors/*.vim
+vim/colors/*
+!vim/colors/install_colors
 vim/bundle/*
 !vim/bundle/vim-addon-manager
 vim/syntax/*
-vim/colors/*
 vim/.netrwhist
 *.swo
 *.swp
