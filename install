@@ -18,14 +18,21 @@ cd $dir
 curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -OL
 
 # list of files/folders to symlink in homedir
-files="bashrc bash_profile bash_aliases vim vimrc ideavimrc tmux.conf tmux.theme.conf ctags"
+declare -a files=(
+"bashrc" "bash_profile" "bash_aliases" 
+"vim" "vimrc" "ideavimrc"
+"tmux.conf" "tmux.theme.conf"
+"ctags"
+"Xresources"
+)
+
 #installs vundle
-cd ~
+#cd ~
 # git clone https://github.com/gmarik/Vundle.vim.git $dir/vim/bundle/Vundle.vim
 
 echo "Creating $olddir for backup of any existing dotfiles in ~"
 mkdir -p $olddir
-for file in $files; do
+for file in "${files[@]}"; do
     cd $dir
     cd ~
     echo "Moving existing $file from ~ to $olddir"
@@ -35,3 +42,6 @@ for file in $files; do
 done
 
 vim +PlugUpdate +qall
+
+echo "Executing vim colorscheme install..."
+exec $dir/vim/colors/install_colors

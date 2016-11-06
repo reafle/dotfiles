@@ -244,7 +244,10 @@ let g:fzf_action = {
 
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
+" Ctrl+p to call fzf
 noremap <C-p> :FZF<cr>
+
+" Fzf ignore files such as node modules,etc etc
 
 
 
