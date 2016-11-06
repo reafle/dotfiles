@@ -7,6 +7,7 @@ vim/plugged/*
 vim/undo/*
 vim/vim
 vim/session/*
+vim/colors/*.vim
 vim/bundle/*
 !vim/bundle/vim-addon-manager
 vim/syntax/*
