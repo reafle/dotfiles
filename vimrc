@@ -29,6 +29,7 @@ Plug 'StanAngeloff/php.vim'
 Plug 'tpope/vim-surround'
 
 call plug#end()
+
 """"""""""Main configuration"""""""""" 
 
 filetype on
@@ -52,6 +53,8 @@ set nowrap          " don't wrap long lines
 set mouse=v         " full mouse support
 set number          " show line numbers
 set ttyfast         " smooth changes (indicates fast terminal connection)
+set lazyredraw      " smoother redraw
+set term=xterm-256color         
 set encoding=UTF-8  " character encoding
 set nobomb          " no Byte Order Mark for UTF-8
 set colorcolumn=0
@@ -138,31 +141,43 @@ nnoremap <A-x> <C-x>
 
 """""""""" Styling """""""""" 
 
-" Add some distinction to active window
-hi CursorLine guibg=#303000 ctermbg=8 cterm=none term=none
+" Default colorscheme
+colorscheme fahrenheit
+
+" Setting the whitespace characters
+set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<
+set list
+
+"" Add some distinction to active window
+"hi CursorLine guibg=#303000 ctermbg=8 cterm=none term=none
 augroup BgHighlight
     au!
     au VimEnter,WinEnter,BufWinEnter * setlocal cul
     au WinLeave * setlocal nocul
 augroup END
 
-" Tabline styles
-hi TabLine cterm=none ctermfg=DarkBlue ctermbg=none
-hi TabLineSel term=bold cterm=Bold ctermfg=White ctermbg=Green 
-hi TabLineFill ctermfg=none ctermbg=none
-hi Title ctermfg=DarkYellow 
+"" Tabline styles
+"hi TabLine cterm=none ctermfg=DarkBlue ctermbg=none
+"hi TabLineSel term=bold cterm=Bold ctermfg=White ctermbg=Green 
+"hi TabLineFill ctermfg=none ctermbg=none
+"hi Title ctermfg=DarkYellow 
+"
+"" Menu styles
+"hi PMenu ctermfg=DarkGreen ctermbg=LightBlue cterm=none term=none
+"hi PMenuSel ctermfg=White ctermbg=DarkBlue cterm=None
+"hi PMenuSBar ctermfg=White ctermbg=DarkBlue
+"
+"" Search style (shoutouts to Khalifa!)
+"hi Search ctermfg=black ctermbg=Yellow cterm=none term=none
+"
+"" TODO  tag
+"hi TODO ctermfg=black ctermbg=Yellow cterm=bold term=none
 
-" Menu styles
-hi PMenu ctermfg=DarkGreen ctermbg=LightBlue cterm=none term=none
-hi PMenuSel ctermfg=White ctermbg=DarkBlue cterm=None
-hi PMenuSBar ctermfg=White ctermbg=DarkBlue
-
-" Search style (shoutouts to Khalifa!)
-hi Search ctermfg=black ctermbg=Yellow cterm=none term=none
-
-" TODO  tag
-hi TODO ctermfg=black ctermbg=Yellow cterm=bold term=none
-
+" Disable Background Color Erase (BCE) so that color schemes
+" work properly when Vim is used inside tmux and GNU screen.
+if &term =~ '256color'
+    set t_ut=
+endif
 
 """"""""""Plugin configurations"""""""""" 
 
@@ -244,6 +259,20 @@ let g:fzf_action = {
 
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
+let g:fzf_colors =
+  \ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
 " Ctrl+p to call fzf
 noremap <C-p> :FZF<cr>
 
@@ -251,7 +280,12 @@ noremap <C-p> :FZF<cr>
 
 
 
+"" vim-fugitive
+" Open vertical splits
+set diffopt+=vertical 
+
 """"""""""End plugin configurations""""""""" 
+
 
 
 

@@ -196,9 +196,9 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 ### tmux aliases
 if $(type tmux > /dev/null 2>&1); then
-    alias tmux='tmux'
+    alias tmux='tmux -2'
     alias ta='tmux attach -t'
-    alias tnew='tmux new -s'
+    alias tnew='tmux -2 new -s'
     alias tls='tmux ls'
     alias tkill='tmux kill-session -t'
 fi
