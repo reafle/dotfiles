@@ -14,6 +14,8 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin()
 
+
+Plug 'teddywing/vim-ls-grep'
 Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
@@ -283,6 +285,11 @@ noremap <C-p> :FZF<cr>
 "" vim-fugitive
 " Open vertical splits
 set diffopt+=vertical 
+
+
+"" vim-ls-grep
+" :lsg = LsGrep
+cnoreabbrev lsg LsGrep
 
 """"""""""End plugin configurations""""""""" 
 

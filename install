@@ -23,7 +23,7 @@ declare -a files=(
 "vim" "vimrc" "ideavimrc"
 "tmux.conf" 
 "ctags"
-"Xresources"
+"Xresources" "xinitrc"
 )
 
 #installs vundle
