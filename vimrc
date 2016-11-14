@@ -78,7 +78,7 @@ set path+=**
 set wildmenu
 set wildmode=list:longest,full
 
-set wildignore+=.hg,.git,.svn              " Version control
+set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
 set wildignore+=*.1st,*.pyd
 set wildignore+=*.spl                            " compiled spelling word lists
