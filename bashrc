@@ -206,5 +206,6 @@ fi
 ### Disable ctrl+s freezing the terminal ###
 stty -ixon
 
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 

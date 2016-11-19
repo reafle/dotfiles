@@ -30,6 +30,8 @@ Plug 'joonty/vdebug'
 Plug 'StanAngeloff/php.vim'
 Plug 'tpope/vim-surround'
 
+Plug 'chase/vim-ansible-yaml'
+
 call plug#end()
 
 """"""""""Main configuration"""""""""" 
