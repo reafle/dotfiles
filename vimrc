@@ -10,34 +10,73 @@ set nocompatible
 
 
 """""""""" Plugin Installation """""""""" 
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call plug#begin()
 
+"""""""""" auto install plug-vim """""""""" 
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 
+call plug#begin('~/.vim/plugged')
+"
+" Tools 
 Plug 'teddywing/vim-ls-grep'
 Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
 Plug 'keith/tmux.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'metakirby5/codi.vim'
+Plug 'mhinz/vim-grepper'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'joonty/vdebug'
-Plug 'StanAngeloff/php.vim'
-Plug 'tpope/vim-surround'
+" Common programming
+Plug 'scrooloose/syntastic'
+Plug 'Raimondi/delimitMate'
+Plug 'Valloric/YouCompleteMe'
+Plug 'vim-scripts/AutoComplPop'
+Plug 'majutsushi/tagbar'
+Plug 'ludovicchabant/vim-gutentags'
 
+
+" PHP
+Plug 'joonty/vdebug' 
+Plug 'StanAngeloff/php.vim'
+Plug 'php-vim/phpcd.vim', { 'for': 'php' , 'do': 'composer update' }
+Plug 'docteurklein/vim-symfony'
+Plug 'guenti/vim-php-cs-fixer'
+Plug 'arnaud-lb/vim-php-namespace'
+Plug 'vim-php/tagbar-phpctags.vim'
+" Plug 'vim-scripts/phpfolding.vim'
+
+" Twig / jinja2 syntax
+Plug 'lumiliet/vim-twig'
+
+" Ansible / YAML parsing
 Plug 'chase/vim-ansible-yaml'
+
+"Git
+Plug 'tpope/vim-fugitive'
+
+" Javascript
+Plug 'jelera/vim-javascript-syntax'
+Plug 'pangloss/vim-javascript'
+Plug 'marijnh/tern_for_vim'
+" TODO: https://github.com/bigfish/vim-js-context-coloring
+
+" Coffeescript O_o ?
+Plug 'kchmck/vim-coffee-script'
+
 
 call plug#end()
 
 """"""""""Main configuration"""""""""" 
 
+
 filetype on
-filetype plugin indent on 
 
 set nobackup        " no backup files
 set tabstop=4       " tab width
@@ -73,6 +112,9 @@ syntax on           " enable synax highlight
 
 " append current dir to the path
 set path+=**
+
+" Disable ctrl+z
+nnoremap <c-z> <nop>
 
 "" wildmenu - use TAB for :find and other file command suggestions
 "" TODO: configure
@@ -130,11 +172,8 @@ let mapleader = " "
 " Leader R to reload .vimrc 
 nnoremap <Leader>r :so $MYVIMRC<CR>:echohl WarningMsg<Bar>echo "Reloaded .vimrc config...."<Bar>echohl None<CR>
 
-" Leader R to reload .vimrc 
-nnoremap <Leader>r :so $MYVIMRC<CR>:echohl WarningMsg<Bar>echo "Reloaded .vimrc config...."<Bar>echohl None<CR>
-
 " Leader chl to clear search highlights 
-nnoremap <Leader>chl :noh<CR>
+nnoremap <silent> <Leader>chl :noh<CR>
 
 " save file with sudo
 cmap w!! w !sudo tee > /dev/null % 
@@ -142,6 +181,15 @@ cmap w!! w !sudo tee > /dev/null %
 " Since <C-a> is tmux prefix, re-bind increment/decrement to <A-a>/<A-x>
 nnoremap <A-a> <C-a>
 nnoremap <A-x> <C-x>
+
+""""""""" Language specific config  """"""""""
+" PHP
+autocmd FileType php set kp=pman
+
+" TODO : inoreabbrev vd() var_dump()
+
+" JS 
+autocmd FileType js set foldmethod=syntax
 
 """""""""" Styling """""""""" 
 
@@ -159,23 +207,6 @@ augroup BgHighlight
     au VimEnter,WinEnter,BufWinEnter * setlocal cul
     au WinLeave * setlocal nocul
 augroup END
-
-"" Tabline styles
-"hi TabLine cterm=none ctermfg=DarkBlue ctermbg=none
-"hi TabLineSel term=bold cterm=Bold ctermfg=White ctermbg=Green 
-"hi TabLineFill ctermfg=none ctermbg=none
-"hi Title ctermfg=DarkYellow 
-"
-"" Menu styles
-"hi PMenu ctermfg=DarkGreen ctermbg=LightBlue cterm=none term=none
-"hi PMenuSel ctermfg=White ctermbg=DarkBlue cterm=None
-"hi PMenuSBar ctermfg=White ctermbg=DarkBlue
-"
-"" Search style (shoutouts to Khalifa!)
-"hi Search ctermfg=black ctermbg=Yellow cterm=none term=none
-"
-"" TODO  tag
-"hi TODO ctermfg=black ctermbg=Yellow cterm=bold term=none
 
 " Disable Background Color Erase (BCE) so that color schemes
 " work properly when Vim is used inside tmux and GNU screen.
@@ -211,6 +242,11 @@ nnoremap <silent> <C-l> :tabnext<CR>
 nnoremap <silent> <C-h> :tabprevious<CR>
 
 
+" Syntastic
+"" Check file when it's opened
+let g:syntastic_check_on_open=1
+
+
 "" Vdebug
 " Don't break on first line
 if (!exists("g:vdebug_options")) 
@@ -218,11 +254,21 @@ if (!exists("g:vdebug_options"))
 endif
 let g:vdebug_options["break_on_open"] = 0
 
-" Leader+e to eval whats selected 
+" Leader+ev to eval whats selected 
 if (!exists("g:vdebug_keymap ")) 
     let g:vdebug_keymap = {}
 endif
-let g:vdebug_keymap["eval_visual"] = "<Leader>e"
+let g:vdebug_keymap["eval_visual"] = "<Leader>ev"
+
+" Leader+et to trace visually selected variable
+vnoremap <Leader>et "vy<Esc>:python debugger.handle_trace("<C-R>v")<CR>
+
+
+
+
+"" Tagbar
+nnoremap <silent> <C-m> :TagbarToggle<CR>
+"inoremap <silent> <C-m> :TagbarToggle<CR>
 
 
 "" NerdTREE
@@ -245,14 +291,51 @@ let NERDTreeMapOpenSplit="s"
 
 "" ctags
 " add :MakeTags command to generate tags
-command! MakeTags !ctags -R .
+command! MakeTags !ctags 
+command! MakeTagsPhp !phpctags -R .
+set tags+=tags,tags.vendors
 " TODO: check |:help tags|
 " TODO: make jumping better, currently we get a ton of js minified gibberish as a suggestion
+
+
+"" vim-symfony
+let g:symfony_app_console_path = "bin/console"
+
+"" php-cs-fixer
+let g:php_cs_fixer_path="php-cs-fixer"
+
+
+"" phpfolding.vim
+"autocmd FileType php set fdm=syntax
+"noremap <Leader>zz <Esc>:EnableFastPHPFolds<Cr>
+"noremap <Leader>zx <Esc>:EnablePHPFolds<Cr>
+"noremap <Leader>zc <Esc>:DisablePHPFolds<Cr>
+
+" vim-php-namespace
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+"TODO: check if we need this :
+" autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
+
 
 "" vim-surround
 " add php tag surrounding
 autocmd FileType php let b:surround_45 = "<?php \r ?>"
 
+"" Ag
+" Tweak to be able to pass parameters to Ag
+function! s:ag_in(...)
+  call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+endfunction
+
+command! -nargs=+ -complete=dir AgIn call s:ag_in(<f-args>)
+"autocmd VimEnter * command! Ag
+"      \ call fzf#vim#ag({'left': '15%', 'options': '--reverse --margin 30%,0'})
+"" bind K to Ag word under cursor
+nnoremap K :AgIn . \b<C-R><C-W>\b<C-Left><Left>
 
 "" FZF
 " Ctrl+s for split
@@ -283,7 +366,6 @@ noremap <C-p> :FZF<cr>
 " Fzf ignore files such as node modules,etc etc
 
 
-
 "" vim-fugitive
 " Open vertical splits
 set diffopt+=vertical 
@@ -293,13 +375,45 @@ set diffopt+=vertical
 " :lsg = LsGrep
 cnoreabbrev lsg LsGrep
 
+
+"" vim-javascript
+
+
+" DelimitMate
+"" let delimitMate_expand_cr = 1
+
+
+" YouCompleteMe
+" These are the tweaks I apply to YCM's config, you don't need them but they might help.
+" YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
+let g:ycm_add_preview_to_completeopt=0
+let g:ycm_confirm_extra_conf=0
+set completeopt-=preview
+
+
+"" vim-grepper
+nnoremap <leader>G :Grepper -tool git<cr>
+nnoremap <leader>g :Grepper -tool ag<cr>
+
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
+
+" Optional. The default behaviour should work for most users.
+if (!exists("g:grepper")) 
+    let g:grepper               = {}
+endif
+let g:grepper.tools         = ['git', 'ag', 'rg']
+let g:grepper.jump          = 1
+let g:grepper.next_tool     = '<leader>g'
+let g:grepper.simple_prompt = 1
+let g:grepper.quickfix      = 0
+
 """"""""""End plugin configurations""""""""" 
 
-
-
-
+"
 " switch ; with :
 nnoremap ; :
+vnoremap ; :
 
 """ TODO """
 
