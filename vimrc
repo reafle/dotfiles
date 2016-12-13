@@ -182,11 +182,16 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <A-a> <C-a>
 nnoremap <A-x> <C-x>
 
+
 """"""""" Language specific config  """"""""""
 " PHP
 autocmd FileType php set kp=pman
+" TODO : ULTI SNIPPETS!!!!!
+iab pr print_r();<Left><Left>
+iab vd var_dump();<Left><Left>
 
-" TODO : inoreabbrev vd() var_dump()
+iab prp echo "<pre>";<CR>print_r();<CR>echo "</pre>";<Up><Left><Left>
+iab vdp echo "<pre>";<CR>var_dump();<CR>echo "</pre>";<Up><Left><Left>
 
 " JS 
 autocmd FileType js set foldmethod=syntax
@@ -267,7 +272,7 @@ vnoremap <Leader>et "vy<Esc>:python debugger.handle_trace("<C-R>v")<CR>
 
 
 "" Tagbar
-nnoremap <silent> <C-m> :TagbarToggle<CR>
+nnoremap <silent> <C-i> :TagbarToggle<CR>
 "inoremap <silent> <C-m> :TagbarToggle<CR>
 
 
@@ -316,8 +321,7 @@ function! IPhpInsertUse()
     call PhpInsertUse()
     call feedkeys('a',  'n')
 endfunction
-"TODO: check if we need this :
-" autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
+
 autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
 
 
@@ -418,10 +422,6 @@ vnoremap ; :
 """ TODO """
 
 " TODO: check |:help ins-completion|
-
-" Escape mapped to Caps and vice versa
-" TODO: platform independent if possible: 
-"  -  ubuntu: setxkbmap -option caps:swapescape
 
 " TODO code foldings - |:help folds|
 
