@@ -4,6 +4,18 @@
 
 """ [:help 'optionname'] for more info about each option
 
+""" Possible key maps: 
+"
+" Ctrl-@                 0x00            NUL
+" Ctrl-A to Ctrl-Z       0x01 to 0x1A
+" Ctrl-a to Ctrl-z       0x01 to 0x1A
+" Ctrl-[                 0x1B            ESC
+" Ctrl-\                 0x1C
+" Ctrl-]                 0x1D
+" Ctrl-^                 0x1E
+" Ctrl-_                 0x1F
+" Ctrl-?                 0x7F            DEL
+
 " disable vi compatibility - this is required by many plugins 
 " and functions to work.
 set nocompatible    
@@ -29,6 +41,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'
 Plug 'metakirby5/codi.vim'
 Plug 'mhinz/vim-grepper'
+Plug 'drmikehenry/vim-fixkey'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
@@ -41,7 +54,6 @@ Plug 'vim-scripts/AutoComplPop'
 Plug 'majutsushi/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
 
-
 " PHP
 Plug 'joonty/vdebug' 
 Plug 'StanAngeloff/php.vim'
@@ -50,7 +62,7 @@ Plug 'docteurklein/vim-symfony'
 Plug 'guenti/vim-php-cs-fixer'
 Plug 'arnaud-lb/vim-php-namespace'
 Plug 'vim-php/tagbar-phpctags.vim'
-" Plug 'vim-scripts/phpfolding.vim'
+"" Plug 'vim-scripts/phpfolding.vim'
 
 " Twig / jinja2 syntax
 Plug 'lumiliet/vim-twig'
@@ -158,16 +170,19 @@ set viminfo='10,\"100,:20,%,n~/.viminfo
 set clipboard=unnamed
 
 " Enable omnifunc - autocompletion like intellisense
-set omnifunc=syntaxcomplete#Complete
+"set omnifunc=syntaxcomplete#Complete
 
 
 """""""""" Key mappings """""""""" 
 
+" TODO: alt mappings breaks macros in insert mode 
 " Leader key (works like vim-special modifier key) mapped to <Space>
 let mapleader = " "
 
-" Ctrl+Space for autocompletion
 "inoremap <C-Space> <C-N>
+
+" Alt-t opens new tab"
+noremap <M-t> :tabnew<CR>
 
 " Leader R to reload .vimrc 
 nnoremap <Leader>r :so $MYVIMRC<CR>:echohl WarningMsg<Bar>echo "Reloaded .vimrc config...."<Bar>echohl None<CR>
@@ -178,9 +193,9 @@ nnoremap <silent> <Leader>chl :noh<CR>
 " save file with sudo
 cmap w!! w !sudo tee > /dev/null % 
 
-" Since <C-a> is tmux prefix, re-bind increment/decrement to <A-a>/<A-x>
-nnoremap <A-a> <C-a>
-nnoremap <A-x> <C-x>
+" Since <C-a> is tmux prefix, re-bind increment/decrement to <M-a>/<M-x>
+nnoremap <M-a> <C-a>
+nnoremap <M-x> <C-x>
 
 
 """"""""" Language specific config  """"""""""
@@ -227,8 +242,8 @@ endif
 " See: http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
 let c='a'
 while c <= 'z'
-  exec "set <A-".c.">=\e".c
-  exec "imap \e".c." <A-".c.">"
+  exec "set <M-".c.">=\e".c
+  exec "imap \e".c." <M-".c.">"
   let c = nr2char(1+char2nr(c))
 endw
 
@@ -240,7 +255,8 @@ nnoremap <silent> <M-h> :TmuxNavigateLeft<CR>
 nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <M-/> :TmuxNavigatePrevious<cr>
+
+" nnoremap <silent> <M-/> :TmuxNavigatePrevious<cr> " TODO: removeme
 
 " Bind Leader+hjkl to navigate tabs
 nnoremap <silent> <C-l> :tabnext<CR>
@@ -267,18 +283,19 @@ let g:vdebug_keymap["eval_visual"] = "<Leader>ev"
 
 " Leader+et to trace visually selected variable
 vnoremap <Leader>et "vy<Esc>:python debugger.handle_trace("<C-R>v")<CR>
+vnoremap <Leader>ee :VdebugEval<Space>
 
 
 
 
 "" Tagbar
-nnoremap <silent> <C-i> :TagbarToggle<CR>
+map <silent> <M-m> :TagbarToggle<CR>
 "inoremap <silent> <C-m> :TagbarToggle<CR>
 
 
 "" NerdTREE
 "toggle via ctrl+n
-map <C-n> :NERDTreeToggle<CR> 
+map <M-n> :NERDTreeToggle<CR> 
 
 " leader + n = reveal current buffer in NERDTree
 nmap <silent> <Leader>n :NERDTreeFind<CR>
@@ -392,6 +409,8 @@ cnoreabbrev lsg LsGrep
 " YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
 let g:ycm_add_preview_to_completeopt=0
 let g:ycm_confirm_extra_conf=0
+let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_auto_trigger = 1
 set completeopt-=preview
 
 
@@ -407,7 +426,7 @@ if (!exists("g:grepper"))
     let g:grepper               = {}
 endif
 let g:grepper.tools         = ['git', 'ag', 'rg']
-let g:grepper.jump          = 1
+let g:grepper.jump          = 0
 let g:grepper.next_tool     = '<leader>g'
 let g:grepper.simple_prompt = 1
 let g:grepper.quickfix      = 0
