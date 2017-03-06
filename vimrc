@@ -39,12 +39,15 @@ Plug 'scrooloose/nerdtree'
 Plug 'keith/tmux.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'
-Plug 'metakirby5/codi.vim'
+"Plug 'metakirby5/codi.vim'
 Plug 'mhinz/vim-grepper'
-Plug 'drmikehenry/vim-fixkey'
+"Plug 'drmikehenry/vim-fixkey'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
+
+"Plug 'SirVer/ultisnips'
+"Plug 'honza/vim-snippets'
 
 " Common programming
 Plug 'scrooloose/syntastic'
@@ -69,6 +72,9 @@ Plug 'lumiliet/vim-twig'
 
 " Ansible / YAML parsing
 Plug 'chase/vim-ansible-yaml'
+
+" CSS / SCSS
+Plug 'cakebaker/scss-syntax.vim'
 
 "Git
 Plug 'tpope/vim-fugitive'
@@ -119,6 +125,7 @@ set nolist          " dont split long lines to several lines upon editing that l
 
 set winheight=15    " auto resize active split to 30 lines
 set winminheight=5  " min split height is 5 lines
+set noesckeys       " allows using esc keys in insert mode - for macro recording
 
 syntax on           " enable synax highlight
 
@@ -181,6 +188,9 @@ let mapleader = " "
 
 "inoremap <C-Space> <C-N>
 
+" Leader bd to delete all buffers
+noremap <Leader>bd :%bd<CR>
+
 " Alt-t opens new tab"
 noremap <M-t> :tabnew<CR>
 
@@ -197,6 +207,10 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <M-a> <C-a>
 nnoremap <M-x> <C-x>
 
+" Easier window resize
+nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+
 
 """"""""" Language specific config  """"""""""
 " PHP
@@ -210,6 +224,10 @@ iab vdp echo "<pre>";<CR>var_dump();<CR>echo "</pre>";<Up><Left><Left>
 
 " JS 
 autocmd FileType js set foldmethod=syntax
+
+" coffee
+autocmd FileType coffee set ts=2
+autocmd FileType coffee set sw=2
 
 """""""""" Styling """""""""" 
 
@@ -258,7 +276,7 @@ nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
 
 " nnoremap <silent> <M-/> :TmuxNavigatePrevious<cr> " TODO: removeme
 
-" Bind Leader+hjkl to navigate tabs
+" Bind C+hjkl to navigate tabs
 nnoremap <silent> <C-l> :tabnext<CR>
 nnoremap <silent> <C-h> :tabprevious<CR>
 
@@ -309,6 +327,20 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " maps s for 'open in split', v for 'open in vsplit'
 let NERDTreeMapOpenVSplit="v"
 let NERDTreeMapOpenSplit="s"
+
+"" TODO : Nerdtree copy on key combo
+" " yy to copy currently selected node
+" function! NERDTreeYankCurrentNode()
+"     let n = g:NERDTreeFileNode.GetSelected()
+"     if n != {}
+"         call setreg('+', n.path.str())
+"     endif
+" endfunction
+" 
+" call NERDTreeAddKeyMap({
+"         \ 'key': 'yy',
+"         \ 'callback': 'NERDTreeYankCurrentNode',
+"         \ 'quickhelpText': 'put full path of current node into the default register' })
 
 
 "" ctags
@@ -431,8 +463,17 @@ let g:grepper.next_tool     = '<leader>g'
 let g:grepper.simple_prompt = 1
 let g:grepper.quickfix      = 0
 
-""""""""""End plugin configurations""""""""" 
 
+"" UltiSnips
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<M-e>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+"let g:UltiSnipsEditSplit="vertical"
+"""""""""""End plugin configurations""""""""" 
+"
 "
 " switch ; with :
 nnoremap ; :

@@ -203,6 +203,23 @@ if $(type tmux > /dev/null 2>&1); then
     alias tkill='tmux kill-session -t'
 fi
 
+### git aliases
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gco='git checkout'
+alias gl='git log'
+alias gll='git log --oneline --decorate --graph'
+alias gd='git difff'
+alias gp='git push'
+alias gpl='git pull'
+alias gf='git fetch'
+alias gm='git merge'
+alias gr='git rebase'
+
+# delete all vim swap files in subdirectory
+alias dswap='find ./ -type f -name "\.*sw[klmnop]" -delete'
+
 ### Disable ctrl+s freezing the terminal ###
 stty -ixon
 
