@@ -127,6 +127,9 @@ set winheight=15    " auto resize active split to 30 lines
 set winminheight=5  " min split height is 5 lines
 set noesckeys       " allows using esc keys in insert mode - for macro recording
 
+set relativenumber 
+set number 
+
 syntax on           " enable synax highlight
 
 " append current dir to the path
