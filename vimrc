@@ -1,6 +1,6 @@
 """
 """ reafle .vimrc config
-"""
+""
 
 """ [:help 'optionname'] for more info about each option
 
@@ -50,12 +50,13 @@ Plug 'junegunn/fzf.vim'
 "Plug 'honza/vim-snippets'
 
 " Common programming
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 Plug 'Raimondi/delimitMate'
 Plug 'Valloric/YouCompleteMe'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'majutsushi/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'w0rp/ale'
 
 " PHP
 Plug 'joonty/vdebug' 
@@ -286,7 +287,7 @@ nnoremap <silent> <C-h> :tabprevious<CR>
 
 " Syntastic
 "" Check file when it's opened
-let g:syntastic_check_on_open=1
+" let g:syntastic_check_on_open=1
 
 
 "" Vdebug
@@ -447,6 +448,10 @@ let g:ycm_confirm_extra_conf=0
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_auto_trigger = 1
 set completeopt-=preview
+
+"tern-js
+let g:tern_show_argument_hints='on_hold'
+let g:tern_map_keys=1
 
 
 "" vim-grepper
