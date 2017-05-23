@@ -2,6 +2,8 @@
 # Helper ANSI colors
 RED='\033[0;31m'
 NC='\033[0m' # No Color
+USE_NVIM=1 # No Color
+USE_VIM=0 # No Color
 
 # creates symlinks for desired files from home to specified directory
 
@@ -22,31 +24,38 @@ curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bas
 # list of files/folders to symlink in homedir
 declare -a files=(
 "bashrc" "bash_profile" "bash_aliases" 
-"vim" "vimrc" "ideavimrc"
+"vim"
 "tmux.conf" 
 "ctags"
 "Xresources" "xinitrc"
 )
 
-#installs vundle
-#cd ~
-# git clone https://github.com/gmarik/Vundle.vim.git $dir/vim/bundle/Vundle.vim
-
 echo "Creating $olddir for backup of any existing dotfiles in ~"
 mkdir -p $olddir
 for file in "${files[@]}"; do
-    cd $dir
-    cd ~
-    echo "Moving existing $file from ~ to $olddir"
-    mv .$file $olddir
-    echo "Creating symlink to $file in `pwd`"
-    ln -s $dir/$file .$file
+    if [ ! -f ~/.$file ]; then 
+        cd $dir
+        cd ~
+        mv .$file $olddir
+        echo "Creating symlink to $file in `pwd`"
+        ln -s $dir/$file .$file &> /dev/null
+    fi;
+done
+
+# Install VIM config
+declare -a files=(
+"vimrc" "nvimrc" 
+)
+cd ~
+for file in "${files[@]}"; do
+    if [ ! -f ~/.$file ]; then 
+        ln -s $dir/vimconfig .$file &> /dev/null
+    fi;
 done
 
 vim +PlugUpdate +qall
 
 # tern_for_vim requirements
-echo "Installing tern_for_vim dependencies..."
 command -v npm &> /dev/null
 if [ $? = 0 ]; then 
     pushd ~/.vim/plugged/tern_for_vim/
@@ -56,17 +65,27 @@ else
     echo -e "${RED}*** ERROR: npm is not found${NC}"
 fi;
 
-# Install you-complete-me
-echo "Compiling YouCompleteMe binaries..."
-command -v cmake &> /dev/null
-if [ $? = 0 ]; then 
-    pushd ~/.vim/plugged/YouCompleteMe
-    ./install.py --tern-completer
-    popd
-else
-    echo -e "${RED}*** ERROR: cmake is not found${NC}"
+# Install you-complete-me (VIM environments only)
+if [ ${USE_VIM} = 1 ]; then 
+    echo -e "Installing VIM stuff"
+   # command -v cmake &> /dev/null
+   # echo "Compiling YouCompleteMe binaries..."
+   # command -v cmake &> /dev/null
+   # if [ $? = 0 ]; then 
+   #     pushd ~/.vim/plugged/YouCompleteMe
+   #     ./install.py --tern-completer
+   #     popd
+   # else
+   #     echo -e "${RED}*** ERROR: cmake is not found${NC}"
+   # fi;
 fi;
 
 
 echo "Executing vim colorscheme install..."
 exec $dir/vim/colors/install_colors
+
+# install VIM-NVIM transistion
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+source ~/.vimrc
+

@@ -230,6 +230,7 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 eval $(thefuck --alias)
 
 ### tasks : https://github.com/sjl/t
-alias t='python ~/tasks/t/t.py --task-dir ~/tasks --list tasks'
-alias b='python ~/path/to/t.py --task-dir . --list bugs'
+alias t='python3 ~/tasks/t/t.py --task-dir ~/tasks --list tasks'
+alias b='python3 ~/path/to/t.py --task-dir . --list bugs'
+alias vim='nvim'
 

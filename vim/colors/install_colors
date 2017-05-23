@@ -19,6 +19,6 @@ cd $colordir
 
 for link in "${themes[@]}"
 do
-    wget -nv -N $link 
+    wget -nv -N $link --quiet
 done
 

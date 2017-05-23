@@ -54,7 +54,6 @@ Plug 'junegunn/fzf.vim'
 " Plug 'scrooloose/syntastic'
 " Plug 'Raimondi/delimitMate'
 Plug 'jiangmiao/auto-pairs'
-Plug 'Valloric/YouCompleteMe'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'majutsushi/tagbar'
 Plug 'ludovicchabant/vim-gutentags'
@@ -90,13 +89,19 @@ Plug 'marijnh/tern_for_vim'
 
 " Coffeescript O_o ?
 Plug 'kchmck/vim-coffee-script'
-" Plug 'lukaszkorecki/CoffeeTags'
+Plug 'lukaszkorecki/CoffeeTags'
 
 " Typescript
 Plug 'leafgarland/typescript-vim'
 
 " Themes
 Plug 'NLKNguyen/papercolor-theme'
+
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else 
+    Plug 'Valloric/YouCompleteMe'
+endif
 
 call plug#end()
 
@@ -124,7 +129,9 @@ set mouse=v         " full mouse support
 set number          " show line numbers
 set ttyfast         " smooth changes (indicates fast terminal connection)
 set lazyredraw      " smoother redraw
-set term=xterm-256color         
+if !(has('nvim'))
+    set term=xterm-256color         
+endif
 set encoding=UTF-8  " character encoding
 set nobomb          " no Byte Order Mark for UTF-8
 set colorcolumn=0
@@ -175,6 +182,7 @@ set wildignore+=/packaged
 " custom filetype syntax highlight settings
 autocmd BufRead,BufNewFile *.dry set filetype=dry
 autocmd BufRead,BufNewFile *.thtml,*.tpl set filetype=php
+autocmd BufRead,BufNewFile vimconfig set filetype=vim
 
 " Tell vim to remember certain things when we exit
 "  '10  :  marks will be remembered for up to 10 previously edited files
@@ -182,7 +190,7 @@ autocmd BufRead,BufNewFile *.thtml,*.tpl set filetype=php
 "  :20  :  up to 20 lines of command-line history will be remembered
 "  %    :  saves and restores the buffer list
 "  n... :  where to save the viminfo files
-set viminfo='10,\"100,:20,%,n~/.viminfo
+" " set viminfo='10,\"100,:20,%,n~/.viminfo
 
 " share the OS clipboard with vim + register
 " perhaps not platform-independent
@@ -280,16 +288,19 @@ endif
 
 "" vim-tmux-navigator
 
+if !(has('nvim'))
+
 " A hack for gnome-terminal to recognise <Alt> not as escape
 " See: http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-let c='a'
-while c <= 'z'
-  exec "set <M-".c.">=\e".c
-  exec "imap \e".c." <M-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
+    let c='a'
+    while c <= 'z'
+      exec "set <M-".c.">=\e".c
+      exec "imap \e".c." <M-".c.">"
+      let c = nr2char(1+char2nr(c))
+    endw
+    set timeout ttimeoutlen=50
+endif
 
-set timeout ttimeoutlen=50
 
 " Bind Alt+hjkl to navigate splits
 let g:tmux_navigator_no_mappings = 1
@@ -326,8 +337,6 @@ let g:vdebug_keymap["eval_visual"] = "<Leader>ev"
 " Leader+et to trace visually selected variable
 vnoremap <Leader>et "vy<Esc>:python debugger.handle_trace("<C-R>v")<CR>
 vnoremap <Leader>ee :VdebugEval<Space>
-
-
 
 
 "" Tagbar
@@ -468,14 +477,19 @@ let g:AutoPairsShortcutFastWrap=""
 let g:AutoPairsShortcutJump=""
 
 
+if !(has('nvim'))
 " YouCompleteMe
 " These are the tweaks I apply to YCM's config, you don't need them but they might help.
 " YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
-let g:ycm_add_preview_to_completeopt=0
-let g:ycm_confirm_extra_conf=0
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_auto_trigger = 1
-set completeopt-=preview
+    let g:ycm_add_preview_to_completeopt=0
+    let g:ycm_confirm_extra_conf=0
+    let g:ycm_min_num_of_chars_for_completion = 1
+    let g:ycm_auto_trigger = 1
+    set completeopt-=preview
+endif
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
 
 "tern-js
 let g:tern_show_argument_hints='on_hold'

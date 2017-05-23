@@ -17,3 +17,7 @@ vim/.netrwhist
 *.swp
 *.~
 git-completion.bash
+
+tags
+*.log
+vim/init.vim
