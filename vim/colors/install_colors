@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Helper ANSI colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
 # Dependencies
 command -v wget > /dev/null 2>&1 || { echo >&2 "wget is not installed. Aborting..."; exit 1; }
 command -v vim > /dev/null 2>&1 || { echo >&2 "vim is not installed. Aborting..."; exit 1; }
@@ -15,10 +21,17 @@ declare -a themes=(
 
 colordir=~/dotfiles/vim/colors/
 mkdir -p $colordir
-cd $colordir
+pushd $colordir > /dev/null
 
 for link in "${themes[@]}"
 do
-    wget -nv -N $link --quiet
+    printf "   $(basename $link)..."
+    if [ ! -f $(basename $link) ]; then 
+        wget -nv -N $link --quiet
+        printf "${GREEN}OK${NC}\n"
+    else
+        printf "${YELLOW}already installed${NC}\n"
+    fi;
 done
 
+popd > /dev/null

@@ -56,23 +56,7 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-# if [ "$color_prompt" = yes ]; then
-#     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-# else
-#     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-# fi
-# unset color_prompt force_color_prompt
-# 
-# # If this is an xterm set the title to user@host:dir
-# case "$TERM" in
-# xterm*|rxvt*)
-#     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-#     ;;
-# *)
-#     ;;
-# esac
 # get current branch in git repo
-
 function parse_git_branch() {
     BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
     if [ ! "${BRANCH}" == "" ]
@@ -162,75 +146,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
-#psgitbranch(){ setpsinfo '$([ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && git rev-parse --symbolic-full-name --abbrev-ref HEAD)'; }
-
-### Runs eskimi job
-function eskjob() {
-    queueu="$1"
-    shift
-    params="$@"
-    ./cli jobs/worker --queue=${queue} --close-connection=1 --job-reserve-ttl=-1 --debug=1 ${params}
-}
-
-#run eskimi cron
-function eskcron() {
-    name="$1"
-    shift
-    params="$@"
-    ./cli ${name} --debug=1 ${params}
-}
+# Redis clean short-hand
 function redis_clean() {
     redis-cli KEYS $1 | xargs redis-cli DEL
 }
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-
-### bash git branch prompt
-#GIT_PROMPT_ONLY_IN_REPO=1
-#if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
-#        source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
-#    fi
-
-### tmux aliases
-if $(type tmux > /dev/null 2>&1); then
-    alias tmux='tmux -2'
-    alias ta='tmux attach -t'
-    alias tnew='tmux -2 new -s'
-    alias tls='tmux ls'
-    alias tkill='tmux kill-session -t'
-fi
-
-### git aliases
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gco='git checkout'
-alias gl='git log'
-alias gll='git log --oneline --decorate --graph'
-alias gd='git difff'
-alias gp='git push'
-alias gpl='git pull'
-alias gf='git fetch'
-alias gm='git merge'
-alias gr='git rebase'
-
-# delete all vim swap files in subdirectory
-alias dswap='find ./ -type f -name "\.*sw[klmnop]" -delete'
 
 ### Disable ctrl+s freezing the terminal ###
 stty -ixon
-
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-### fuck !
-eval $(thefuck --alias)
-
-### tasks : https://github.com/sjl/t
-alias t='python3 ~/tasks/t/t.py --task-dir ~/tasks --list tasks'
-alias b='python3 ~/path/to/t.py --task-dir . --list bugs'
-alias vim='nvim'
-

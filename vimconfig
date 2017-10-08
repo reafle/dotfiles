@@ -20,6 +20,8 @@
 " and functions to work.
 set nocompatible    
 
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
 
 """""""""" Plugin Installation """""""""" 
 
@@ -33,16 +35,17 @@ endif
 call plug#begin('~/.vim/plugged')
 "
 " Tools 
-Plug 'teddywing/vim-ls-grep'
-Plug 'mileszs/ack.vim'
+"Plug 'teddywing/vim-ls-grep'
+"Plug 'mileszs/ack.vim'
+"Plug 'metakirby5/codi.vim'
+" Plug 'vim-swoop'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'keith/tmux.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'
-"Plug 'metakirby5/codi.vim'
 Plug 'mhinz/vim-grepper'
-Plug 'vim-swoop'
+Plug 'yssl/QFEnter'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
@@ -50,24 +53,43 @@ Plug 'junegunn/fzf.vim'
 "Plug 'SirVer/ultisnips'
 "Plug 'honza/vim-snippets'
 
-" Common programming
+" Common programming / general development
 " Plug 'scrooloose/syntastic'
 " Plug 'Raimondi/delimitMate'
+" Plug 'ludovicchabant/vim-gutentags'
 Plug 'jiangmiao/auto-pairs'
-Plug 'vim-scripts/AutoComplPop'
+if !(has('nvim'))
+    Plug 'vim-scripts/AutoComplPop'
+endif
 Plug 'majutsushi/tagbar'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'w0rp/ale'
+if (has('nvim'))
+    "" TODO: not working ;(  )"
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"     Plug 'Shougo/context_filetype.vim'
+"     Plug 'Shougo/neco-vim'
+"     Plug 'Shougo/neco-syntax'
+"     Plug 'Shougo/neoinclude.vim'
+
+    Plug 'roxma/nvim-completion-manager'
+    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+else 
+    Plug 'Valloric/YouCompleteMe'
+endif
 
 " PHP
-Plug 'joonty/vdebug' 
+Plug 'reafle/vdebug'
 Plug 'StanAngeloff/php.vim'
-Plug 'php-vim/phpcd.vim', { 'for': 'php' , 'do': 'composer update' }
-Plug 'docteurklein/vim-symfony'
+" Plug 'lvht/phpcd.vim', { 'for': 'php' , 'do': 'composer update' }
 Plug 'guenti/vim-php-cs-fixer'
 Plug 'arnaud-lb/vim-php-namespace'
 Plug 'vim-php/tagbar-phpctags.vim'
-"" Plug 'vim-scripts/phpfolding.vim'
+Plug 'Rican7/php-doc-modded'
+" Plug 'docteurklein/vim-symfony'
+Plug 'qbbr/vim-symfony'
+if (has('nvim'))
+    Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+endif
 
 " Twig / jinja2 syntax
 Plug 'lumiliet/vim-twig'
@@ -89,19 +111,22 @@ Plug 'marijnh/tern_for_vim'
 
 " Coffeescript O_o ?
 Plug 'kchmck/vim-coffee-script'
-Plug 'lukaszkorecki/CoffeeTags'
+if has('nvim')
+    " Plug 'lukaszkorecki/CoffeeTags'
+endif
+
+" Elixi 
+Plug 'elixir-lang/vim-elixir'
+Plug 'slashmili/alchemist.vim'
 
 " Typescript
 Plug 'leafgarland/typescript-vim'
 
+" Markdown
+Plug 'JamshedVesuna/vim-markdown-preview'
+
 " Themes
 Plug 'NLKNguyen/papercolor-theme'
-
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else 
-    Plug 'Valloric/YouCompleteMe'
-endif
 
 call plug#end()
 
@@ -129,9 +154,6 @@ set mouse=v         " full mouse support
 set number          " show line numbers
 set ttyfast         " smooth changes (indicates fast terminal connection)
 set lazyredraw      " smoother redraw
-if !(has('nvim'))
-    set term=xterm-256color         
-endif
 set encoding=UTF-8  " character encoding
 set nobomb          " no Byte Order Mark for UTF-8
 set colorcolumn=0
@@ -141,7 +163,11 @@ set nolist          " dont split long lines to several lines upon editing that l
 
 set winheight=15    " auto resize active split to 30 lines
 set winminheight=5  " min split height is 5 lines
-set noesckeys       " allows using esc keys in insert mode - for macro recording
+
+if !(has('nvim'))
+    set noesckeys       " allows using esc keys in insert mode - for macro recording
+    set term=xterm-256color
+endif
 
 set relativenumber 
 set number 
@@ -155,7 +181,6 @@ set path+=**
 nnoremap <c-z> <nop>
 
 "" wildmenu - use TAB for :find and other file command suggestions
-"" TODO: configure
 
 set wildmenu
 set wildmode=list:longest,full
@@ -181,7 +206,8 @@ set wildignore+=/packaged
 
 " custom filetype syntax highlight settings
 autocmd BufRead,BufNewFile *.dry set filetype=dry
-autocmd BufRead,BufNewFile *.thtml,*.tpl set filetype=php
+autocmd BufRead,BufNewFile *.thtml set filetype=php
+autocmd BufRead,BufNewFile *.tpl set filetype=xml
 autocmd BufRead,BufNewFile vimconfig set filetype=vim
 
 " Tell vim to remember certain things when we exit
@@ -197,7 +223,7 @@ autocmd BufRead,BufNewFile vimconfig set filetype=vim
 set clipboard=unnamed
 
 " Enable omnifunc - autocompletion like intellisense
-"set omnifunc=syntaxcomplete#Complete
+set omnifunc=syntaxcomplete#CompletePHP
 
 
 """""""""" Key mappings """""""""" 
@@ -238,6 +264,9 @@ nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 """"""""" Language specific config  """"""""""
 " PHP
 autocmd FileType php set kp=pman
+" FIXME autocmd FileType php LanguageClientStart
+" autocmd FileType php setlocal omnifunc=phpcd#CompletePHP
+
 " TODO : ULTI SNIPPETS!!!!!
 iab pr print_r();<Left><Left>
 iab vd var_dump();<Left><Left>
@@ -333,6 +362,7 @@ if (!exists("g:vdebug_keymap "))
     let g:vdebug_keymap = {}
 endif
 let g:vdebug_keymap["eval_visual"] = "<Leader>ev"
+" let g:vdebug_options['path_maps']={'/app/':'/home/reafle/projects/timebase/'}
 
 " Leader+et to trace visually selected variable
 vnoremap <Leader>et "vy<Esc>:python debugger.handle_trace("<C-R>v")<CR>
@@ -385,8 +415,9 @@ set tags+=tags,tags.vendors
 " TODO: make jumping better, currently we get a ton of js minified gibberish as a suggestion
 
 
-"" vim-symfony
-let g:symfony_app_console_path = "bin/console"
+""" vim-symfony
+"let g:symfony_app_console_path = "bin/console"
+"map <leader>sc :execute ":!"g:symfony_enable_shell_cmd<CR>
 
 "" php-cs-fixer
 let g:php_cs_fixer_path="php-cs-fixer"
@@ -455,6 +486,7 @@ noremap <C-p> :FZF<cr>
 "" vim-fugitive
 " Open vertical splits
 set diffopt+=vertical 
+nnoremap <leader>fb :Gblame<CR>
 
 
 "" vim-ls-grep
@@ -464,7 +496,7 @@ cnoreabbrev lsg LsGrep
 
 "" vim-javascript
 let g:ale_linters = {
-\   'javascript': ['eslint', 'jshint'],
+\   'javascript': ['eslint', 'jshint']
 \}
 
 
@@ -477,19 +509,49 @@ let g:AutoPairsShortcutFastWrap=""
 let g:AutoPairsShortcutJump=""
 
 
-if !(has('nvim'))
 " YouCompleteMe
 " These are the tweaks I apply to YCM's config, you don't need them but they might help.
 " YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
-    let g:ycm_add_preview_to_completeopt=0
+if !(has('nvim'))
+    let g:ycm_add_preview_to_completeopt=1
     let g:ycm_confirm_extra_conf=0
-    let g:ycm_min_num_of_chars_for_completion = 1
+    let g:ycm_min_num_of_chars_for_completion = 3
     let g:ycm_auto_trigger = 1
     set completeopt-=preview
 endif
+set completeopt=longest,menuone
+
+" autocomplete tab to scroll up/down
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><S-tab> pumvisible() ? "\<c-p>" : "\<tab>"
+
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+"
+" open omni completion menu closing previous if open and opening new menu without changing the text
+inoremap <expr> <C-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+            \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+" open user completion menu closing previous if open and opening new menu without changing the text
+inoremap <expr> <S-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+ 
 
 " Use deoplete.
-let g:deoplete#enable_at_startup = 1
+if has('nvim')
+    if !exists('g:deoplete#omni#input_patterns')
+        let g:deoplete#omni#input_patterns = {}
+    endif
+    " let g:deoplete#disable_auto_complete = 1
+    
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#auto_complete_delay=50
+    " TAB complete
+    " deoplete tab-complete
+
+endif
 
 "tern-js
 let g:tern_show_argument_hints='on_hold'
@@ -533,12 +595,25 @@ nmap <Leader>l :call Swoop()<CR>
 vmap <Leader>l :call SwoopSelection()<CR>
 nmap <Leader>ml :call SwoopMulti()<CR>
 vmap <Leader>ml :call SwoopMultiSelection()<CR>
+
+
+"Php-doc-modded
+nnoremap <Leader>pd call PhpDocSingle()<CR> 
+vnoremap <Leader>pr :call PhpDocRange()<CR> 
+
+" vim-markdown-preview
+let vim_markdown_preview_github=1 " Uses grip
+let vim_markdown_preview_toggle=0
+let vim_markdown_preview_hotkey='<Leader>md'
+let vim_markdown_preview_temp_file=1
+
 """""""""""End plugin configurations""""""""" 
 "
 "
 " switch ; with :
 nnoremap ; :
 vnoremap ; :
+
 
 """ TODO """
 
