@@ -18,6 +18,7 @@ declare -a files=(
 "vim"
 "tmux.conf" 
 "ctags"
+"htmlhintrc"
 "Xresources" "xinitrc"
 )
 

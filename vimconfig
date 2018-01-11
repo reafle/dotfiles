@@ -34,6 +34,10 @@ endif
 
 call plug#begin('~/.vim/plugged')
 "
+""Style
+
+Plug 'chriskempson/base16-vim'
+
 " Tools 
 "Plug 'teddywing/vim-ls-grep'
 "Plug 'mileszs/ack.vim'
@@ -46,11 +50,12 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-grepper'
 Plug 'yssl/QFEnter'
+Plug 'chrisbra/Colorizer'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
 
-"Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 "Plug 'honza/vim-snippets'
 
 " Common programming / general development
@@ -65,14 +70,14 @@ Plug 'majutsushi/tagbar'
 Plug 'w0rp/ale'
 if (has('nvim'))
     "" TODO: not working ;(  )"
-    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"     Plug 'Shougo/context_filetype.vim'
-"     Plug 'Shougo/neco-vim'
-"     Plug 'Shougo/neco-syntax'
-"     Plug 'Shougo/neoinclude.vim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'Shougo/context_filetype.vim'
+    Plug 'Shougo/neco-vim'
+    Plug 'Shougo/neco-syntax'
+    Plug 'Shougo/neoinclude.vim'
+    Plug 'Shougo/echodoc.vim'
 
-    Plug 'roxma/nvim-completion-manager'
-    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 else 
     Plug 'Valloric/YouCompleteMe'
 endif
@@ -80,15 +85,19 @@ endif
 " PHP
 Plug 'reafle/vdebug'
 Plug 'StanAngeloff/php.vim'
-" Plug 'lvht/phpcd.vim', { 'for': 'php' , 'do': 'composer update' }
+Plug 'lvht/phpcd.vim', { 'for': 'php' , 'do': 'composer update' }
 Plug 'guenti/vim-php-cs-fixer'
 Plug 'arnaud-lb/vim-php-namespace'
 Plug 'vim-php/tagbar-phpctags.vim'
 Plug 'Rican7/php-doc-modded'
 " Plug 'docteurklein/vim-symfony'
 Plug 'qbbr/vim-symfony'
+Plug 'phpactor/phpactor', { 'do': ':call phpactor#Update()' }
 if (has('nvim'))
-    Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+    " TODO: someday. Padawan for now
+    " Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer update && composer run-script parse-stubs'}
+
+    " Plug 'padawan-php/deoplete-padawan', { 'for' : 'php', 'do': 'composer install' }
 endif
 
 " Twig / jinja2 syntax
@@ -142,6 +151,8 @@ set expandtab       " use spaces for identation
 set softtabstop=4   " interpret spaces as tabs when pressing Backspace
 set backspace=indent,eol,start " backspace tuneup
 
+set hidden          " ability to close unsaved buffer
+set noshowmode      " Doesn't show current typing mode (saves space for echodoc.vim)
 set hlsearch        " highlight search
 set laststatus=2    " show status line
 set scrolloff=3     " keep 3 lines when scrolling
@@ -203,6 +214,12 @@ set wildignore+=dist/
 set wildignore+=/dist
 set wildignore+=packaged/
 set wildignore+=/packaged
+"
+" Enables true color 
+" set termguicolors
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 
 " custom filetype syntax highlight settings
 autocmd BufRead,BufNewFile *.dry set filetype=dry
@@ -223,7 +240,7 @@ autocmd BufRead,BufNewFile vimconfig set filetype=vim
 set clipboard=unnamed
 
 " Enable omnifunc - autocompletion like intellisense
-set omnifunc=syntaxcomplete#CompletePHP
+" set omnifunc=syntaxcomplete#CompletePHP
 
 
 """""""""" Key mappings """""""""" 
@@ -260,12 +277,26 @@ nnoremap <M-x> <C-x>
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 
+" Y to function as C 
+nnoremap Y y$
 
 """"""""" Language specific config  """"""""""
 " PHP
+"
 autocmd FileType php set kp=pman
-" FIXME autocmd FileType php LanguageClientStart
-" autocmd FileType php setlocal omnifunc=phpcd#CompletePHP
+
+" TODO: Wait until more stable / fast
+" let g:LanguageClient_serverCommands = {}
+" let g:LanguageClient_serverCommands.php = ['php', '~/.vim/plugged/LanguageServer-php-neovim/vendor/felixfbecker/language-server/bin/php-language-server.php']
+" autocmd FileType php LanguageClientStart
+" autocmd FileType php setlocal omnifunc=LanguageClient#complete
+" au filetype php setlocal omnifunc=phpactor#Complete
+" au filetype php setlocal omnifunc=phpcomplete#Complete
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
 
 " TODO : ULTI SNIPPETS!!!!!
 iab pr print_r();<Left><Left>
@@ -277,6 +308,15 @@ iab vdp echo "<pre>";<CR>var_dump();<CR>echo "</pre>";<Up><Left><Left>
 iab <expr> dt strftime("%Y-%m-%d")
 iab <expr> dts strftime("%Y-%m-%d %H:%M:%S")
 
+function! PhpSyntaxOverride()
+    hi!  def link phpCommentStar      phpComment
+    hi!  def link phpDocComment       phpComment
+    hi!  def link phpCommentTitle     phpComment
+    hi!  def link phpDocTags          PreProc
+    hi!  def link phpDocParam         Type
+    hi!  def link phpDocIdentifier    phpComment
+endfunction
+
 " JS 
 autocmd FileType js set foldmethod=syntax
 
@@ -287,13 +327,19 @@ autocmd FileType coffee set sw=2
 """""""""" Styling """""""""" 
 
 " Fahrenheit
-colorscheme fahrenheit
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+" 
+" " PaperColor
+" set t_Co=256   " This is may or may not needed.
+" 
+" set background=dark
+"colorscheme PaperColor
 
-" PaperColor
-set t_Co=256   " This is may or may not needed.
-
-set background=dark
-colorscheme PaperColor
+" colorscheme base16-default-dark
+" let base16colorspace=256
 
 " Setting the whitespace characters
 set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<
@@ -314,6 +360,10 @@ if &term =~ '256color'
 endif
 
 """"""""""Plugin configurations"""""""""" 
+
+"" w0rp/ale 
+" TODO: waiting for https://github.com/w0rp/ale/pull/1258
+let g:ale_html_htmlhint_options = '--format=unix --config .htmlhintrc'
 
 "" vim-tmux-navigator
 
@@ -371,7 +421,6 @@ vnoremap <Leader>ee :VdebugEval<Space>
 
 "" Tagbar
 map <silent> <M-m> :TagbarToggle<CR>
-"inoremap <silent> <C-m> :TagbarToggle<CR>
 
 
 "" NerdTREE
@@ -380,9 +429,6 @@ map <M-n> :NERDTreeToggle<CR>
 
 " leader + n = reveal current buffer in NERDTree
 nmap <silent> <Leader>n :NERDTreeFind<CR>
-
-" start automatically
-"" autocmd vimenter * NERDTree 
 
 "close if it's the last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif 
@@ -408,26 +454,19 @@ let NERDTreeMapOpenSplit="s"
 
 "" ctags
 " add :MakeTags command to generate tags
-command! MakeTags !ctags 
-command! MakeTagsPhp !phpctags -R .
-set tags+=tags,tags.vendors
+" command! MakeTags !ctags 
+" command! MakeTagsPhp !phpctags -R .
+" set tags+=tags,tags.vendors
 " TODO: check |:help tags|
 " TODO: make jumping better, currently we get a ton of js minified gibberish as a suggestion
 
 
 """ vim-symfony
-"let g:symfony_app_console_path = "bin/console"
+" let g:symfony_app_console_path = "bin/console"
 "map <leader>sc :execute ":!"g:symfony_enable_shell_cmd<CR>
 
 "" php-cs-fixer
 let g:php_cs_fixer_path="php-cs-fixer"
-
-
-"" phpfolding.vim
-"autocmd FileType php set fdm=syntax
-"noremap <Leader>zz <Esc>:EnableFastPHPFolds<Cr>
-"noremap <Leader>zx <Esc>:EnablePHPFolds<Cr>
-"noremap <Leader>zc <Esc>:DisablePHPFolds<Cr>
 
 " vim-php-namespace
 function! IPhpInsertUse()
@@ -439,7 +478,7 @@ autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
 
 
 "" vim-surround
-" add php tag surrounding
+" add php tag surrounding -  use `-` for <?php ?>
 autocmd FileType php let b:surround_45 = "<?php \r ?>"
 
 "" Ag
@@ -496,7 +535,7 @@ cnoreabbrev lsg LsGrep
 
 "" vim-javascript
 let g:ale_linters = {
-\   'javascript': ['eslint', 'jshint']
+\   'javascript': ['eslint']
 \}
 
 
@@ -508,6 +547,26 @@ let g:ale_linters = {
 let g:AutoPairsShortcutFastWrap=""
 let g:AutoPairsShortcutJump=""
 
+" Use deoplete.
+if has('nvim')
+
+    " let g:deoplete#disable_auto_complete = 1
+    
+    if !exists('g:deoplete#sources')
+        let g:deoplete#sources = {}
+    endif
+    let g:deoplete#sources.php = ['phpcd', 'ultisnips', 'tags', 'buffer']
+    "     let g:deoplete#sources#padawan#add_parentheses = 1
+    "     let g:deoplete#sources#padawan#auto_update = 1
+    let g:deoplete#skip_chars = ['$']
+    let g:deoplete#enable_refresh_always = 1
+
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#auto_complete_delay=50
+
+    " TAB complete
+    " deoplete tab-complete
+endif
 
 " YouCompleteMe
 " These are the tweaks I apply to YCM's config, you don't need them but they might help.
@@ -521,37 +580,35 @@ if !(has('nvim'))
 endif
 set completeopt=longest,menuone
 
-" autocomplete tab to scroll up/down
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><S-tab> pumvisible() ? "\<c-p>" : "\<tab>"
+" autocomplete tab to scroll up/down. Bonus feature - S-tab unindent
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<Tab>"
+inoremap <expr><S-tab> pumvisible() ? "\<c-p>" : "\<C-d>"
 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <silent><expr> <C-space>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
 
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 "
-" open omni completion menu closing previous if open and opening new menu without changing the text
-inoremap <expr> <C-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
-            \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+"  open omni completion menu closing previous if open and opening new menu without changing the text
+inoremap <expr><C-Space> pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<C-Space>" :
+        \ deoplete#mappings#manual_complete()
+        function! s:check_back_space() abort "{{{
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~ '\s'
+        endfunction"}}}
 " open user completion menu closing previous if open and opening new menu without changing the text
 inoremap <expr> <S-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
  
-
-" Use deoplete.
-if has('nvim')
-    if !exists('g:deoplete#omni#input_patterns')
-        let g:deoplete#omni#input_patterns = {}
-    endif
-    " let g:deoplete#disable_auto_complete = 1
-    
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#auto_complete_delay=50
-    " TAB complete
-    " deoplete tab-complete
-
-endif
 
 "tern-js
 let g:tern_show_argument_hints='on_hold'
@@ -601,12 +658,49 @@ vmap <Leader>ml :call SwoopMultiSelection()<CR>
 nnoremap <Leader>pd call PhpDocSingle()<CR> 
 vnoremap <Leader>pr :call PhpDocRange()<CR> 
 
+
 " vim-markdown-preview
 let vim_markdown_preview_github=1 " Uses grip
 let vim_markdown_preview_toggle=0
 let vim_markdown_preview_hotkey='<Leader>md'
 let vim_markdown_preview_temp_file=1
 
+
+" TODO: using padawan for now
+"" LanguageClient
+"noremap <Leader>ld :call LanguageClient_textDocument_definition()<cr>
+"noremap <Leader>lh :call LanguageClient_textDocument_hover()<cr>
+"noremap <Leader>lr :call LanguageClient_textDocument_rename()<cr>
+"noremap <Leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
+"noremap <Leader>lf :call LanguageClient_textDocument_references()<cr>
+
+
+" deoplete-padawan
+" command! PadawanStart call deoplete#sources#padawan#StartServer()
+" command! PadawanStop call deoplete#sources#padawan#StopServer()
+" command! PadawanRestart call deoplete#sources#padawan#RestartServer()
+" command! PadawanInstall call deoplete#sources#padawan#InstallServer()
+" command! PadawanUpdate call deoplete#sources#padawan#UpdateServer()
+" command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
+
+" phpcd
+let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+let g:deoplete#ignore_sources.php = ['omni']
+
+" phpactor
+let g:phpactor_executable = '~/.config/nvim/plugged/phpactor/bin/phpactor'
+
+" echodoc
+if has('nvim')
+    let g:echodoc_enable_at_startup = 1
+endif
+
+
+" Colorizer
+" au BufNewFile,BufRead *.sass,*.less,*.css,*.html.twig,*.tpl,*.html,*.htm  :ColorHighlight!
+let g:colorizer_auto_color = 1
+let g:colorizer_auto_filetype = 'less,scss,sass,css,html'
+let g:colorizer_skip_comments = 1
 """""""""""End plugin configurations""""""""" 
 "
 "
@@ -618,6 +712,6 @@ vnoremap ; :
 """ TODO """
 
 " TODO: check |:help ins-completion|
-
+" TODO: Ultisnips
 " TODO code foldings - |:help folds|
 

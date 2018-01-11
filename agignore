@@ -1,0 +1,44 @@
+# SF ignores
+.git/
+/bin/
+/build/
+/var/*
+npm-debug.log
+
+/web/bundles/
+/web/uploads
+/web/logs
+/web/media
+
+/app/config/parameters.yml
+/app/config/demo.yml
+/app/config/fixtures.yml
+
+!bin/console
+!bin/symfony_requirements
+
+/composer.phar
+
+/nbproject
+*~
+*.swp
+*.swo
+.idea
+.DS_Store
+*.iml
+temp/
+/bower_components/
+/web/bower_components/
+
+# compiled assets
+web/assets/*
+web/assets_old/*
+
+# Vim ctag files
+.ctags
+tags
+tags.vendor
+
+# php code sniffer
+.phpcd/
+.php_cs.cache

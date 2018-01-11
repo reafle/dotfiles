@@ -10,6 +10,10 @@ if [ -d "$HOME/.config/composer/vendor/bin"  ] ; then
     PATH=$PATH:$HOME/.config/composer/vendor/bin
 fi
 
+if [ -d "$HOME/.composer/vendor/bin"  ] ; then
+    PATH=$PATH:$HOME/.composer/vendor/bin
+fi
+
 source "$HOME/dotfiles/git-completion.bash"
 
 export PATH="/usr/local/sbin:$PATH"

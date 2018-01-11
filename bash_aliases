@@ -39,3 +39,6 @@ alias vim='nvim'
 
 ### fuck !
 eval $(thefuck --alias)
+
+alias disable_sleep="xset s 0 s blank"
+alias enable_sleep="xset s 600 s blank"
