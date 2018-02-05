@@ -28,7 +28,8 @@ alias gm='git merge'
 alias gr='git rebase'
 
 # delete all vim swap files in subdirectory
-alias dswap='find ./ -type f -name "\.*sw[klmnop]" -delete'
+alias dswapl='find ./ -type f -name "\.*sw[klmnop]" -delete'
+alias dswap='rm ~/.local/share/nvim/swap/* -f'
 
 ### tasks : https://github.com/sjl/t
 alias t='python3 ~/.tasks/t/t.py --task-dir ~/.tasks --list tasks'

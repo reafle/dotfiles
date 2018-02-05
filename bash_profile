@@ -23,3 +23,5 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 export FZF_DEFAULT_COMMAND='ag --hidden --skip-vcs-ignore --ignore ~/.agignore -g ""'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export EDITOR=/usr/bin/nvim
