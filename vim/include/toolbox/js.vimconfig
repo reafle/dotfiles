@@ -1,0 +1,12 @@
+"""""""""" JS """""""""" 
+
+autocmd FileType js set foldmethod=syntax
+
+
+"""""""""" COFFEESCRIPT """""""""" 
+
+autocmd FileType coffee set ts=2
+autocmd FileType coffee set sw=2
+
+""" Plugins
+source ~/dotfiles/vim/include/plugins/js.vimconfig

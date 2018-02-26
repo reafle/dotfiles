@@ -108,17 +108,18 @@ fi;
 echo -e "${YELLOW}Installing vim colorschemes...${NC}"
 bash $dir/vim/colors/install_colors
 
-printf %b "${YELLOW}Creating nvim config...${NC}"
-if [ ! -f ~/.vim/init.vim ]; then 
-cat <<'EOF' > ~/.vim/init.vim
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-source ~/.vimrc
-EOF
-    printf %b "${GREEN}OK${NC}\n"
-else
-    printf %b "${YELLOW}skipped${NC}\n"
-fi;
+# Since we symlink both files...seems redundant TODO check if happens automatically
+# printf %b "${YELLOW}Creating nvim config...${NC}"
+# if [ ! -f ~/.vim/init.vim ]; then 
+# cat <<'EOF' > ~/.vim/init.vim
+# set runtimepath^=~/.vim runtimepath+=~/.vim/after
+# let &packpath = &runtimepath
+# source ~/.vimrc
+# EOF
+#     printf %b "${GREEN}OK${NC}\n"
+# else
+#     printf %b "${YELLOW}skipped${NC}\n"
+# fi;
 
 # Installing python debugging protocol for vim-vdebug
 # Usage: python-debug <script.py>
