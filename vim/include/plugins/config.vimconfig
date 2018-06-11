@@ -53,7 +53,7 @@ if (!exists("g:vdebug_keymap "))
     let g:vdebug_keymap = {}
 endif
 let g:vdebug_keymap["eval_visual"] = "<Leader>ev"
-" let g:vdebug_options['path_maps']={'/app/':'/home/reafle/projects/timebase/'}
+let g:vdebug_options['path_maps']={'/app/':'/home/reafle/projects/timebase/'}
 
 " Leader+et to trace visually selected variable
 vnoremap <Leader>et "vy<Esc>:python debugger.handle_trace("<C-R>v")<CR>
@@ -286,6 +286,6 @@ endif
 
 " Colorizer
 au BufNewFile,BufRead *.sass,*.less,*.css,*.html.twig,*.tpl,*.html,*.htm  :ColorHighlight!
-" let g:colorizer_auto_color = 1
+let g:colorizer_auto_color = 0
 " let g:colorizer_auto_filetype = 'less,scss,sass,css,html'
 let g:colorizer_skip_comments = 1
