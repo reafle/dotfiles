@@ -16,6 +16,7 @@ fi
 ### git aliases
 alias gs='git status'
 alias ga='git add'
+rlias gb='git branch'
 alias gc='git commit'
 alias gco='git checkout'
 alias gl='git log'
@@ -37,9 +38,6 @@ alias b='python3 ~/.tasks/t/t.py --task-dir ~/.tasks/`stat -c "%i" .` --list bug
 
 # vim => nvim
 alias vim='nvim'
-
-### fuck !
-eval $(thefuck --alias)
 
 alias disable_sleep="xset s 0 s blank"
 alias enable_sleep="xset s 600 s blank"
