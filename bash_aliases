@@ -16,7 +16,7 @@ fi
 ### git aliases
 alias gs='git status'
 alias ga='git add'
-rlias gb='git branch'
+alias gb='git branch'
 alias gc='git commit'
 alias gco='git checkout'
 alias gl='git log'
