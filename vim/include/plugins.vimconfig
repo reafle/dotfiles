@@ -22,6 +22,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'yssl/QFEnter'
 Plug 'mattn/emmet-vim'
 Plug 'chrisbra/Colorizer'
+Plug 'sbdchd/neoformat'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
@@ -75,7 +76,7 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'tpope/vim-fugitive'
 
 " Javascript
-Plug 'jelera/vim-javascript-syntax'
+" Plug 'jelera/vim-javascript-syntax'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'marijnh/tern_for_vim'
