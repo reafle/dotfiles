@@ -23,6 +23,8 @@ Plug 'yssl/QFEnter'
 Plug 'mattn/emmet-vim'
 Plug 'chrisbra/Colorizer'
 Plug 'sbdchd/neoformat'
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
@@ -69,6 +71,8 @@ Plug 'lumiliet/vim-twig'
 " Ansible / YAML parsing
 Plug 'chase/vim-ansible-yaml'
 
+" HTML 
+Plug 'alvan/vim-closetag'
 " CSS / SCSS
 Plug 'cakebaker/scss-syntax.vim'
 

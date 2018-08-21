@@ -40,4 +40,4 @@ function! PhpSyntaxOverride()
 endfunction
 
 """ PHP Plugins
-source ~/dotfiles/vim/include/plugins/php.vimconfig
+source ~/dotfiles/vim/include/plugins/php.vim

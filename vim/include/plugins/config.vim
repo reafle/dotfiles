@@ -289,3 +289,11 @@ au BufNewFile,BufRead *.sass,*.less,*.css,*.html.twig,*.tpl,*.html,*.htm  :Color
 let g:colorizer_auto_color = 0
 " let g:colorizer_auto_filetype = 'less,scss,sass,css,html'
 let g:colorizer_skip_comments = 1
+
+" vim-closetags
+"
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.js,*.jsx,*.twig"
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.js,*.twig'
+let g:closetag_emptyTags_caseSensitive = 1
+let g:closetag_shortcut = '>'
+let g:closetag_close_shortcut = '<leader>>'
