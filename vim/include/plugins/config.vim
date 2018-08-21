@@ -9,7 +9,6 @@ let g:ale_sign_warning = 'W'
 let g:ale_sign_style_error  = '>>'
 let g:ale_sign_style_warning  = '>'
 highlight ALEWarningSign ctermbg=yellow ctermfg=black
-" highlight link ALEErrorLine cterm=underline
 highlight! ALEWarningLine cterm=underline
 
 "" vim-tmux-navigator
@@ -76,20 +75,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " maps s for 'open in split', v for 'open in vsplit'
 let NERDTreeMapOpenVSplit="v"
 let NERDTreeMapOpenSplit="s"
-
-"" TODO : Nerdtree copy on key combo
-" " yy to copy currently selected node
-" function! NERDTreeYankCurrentNode()
-"     let n = g:NERDTreeFileNode.GetSelected()
-"     if n != {}
-"         call setreg('+', n.path.str())
-"     endif
-" endfunction
-" 
-" call NERDTreeAddKeyMap({
-"         \ 'key': 'yy',
-"         \ 'callback': 'NERDTreeYankCurrentNode',
-"         \ 'quickhelpText': 'put full path of current node into the default register' })
 
 
 "" ctags
@@ -160,29 +145,6 @@ nnoremap <leader>fb :Gblame<CR>
 let g:AutoPairsShortcutFastWrap=""
 let g:AutoPairsShortcutJump=""
 
-"  Use deoplete.
-"if has('nvim')
-"
-"    " let g:deoplete#disable_auto_complete = 1
-"    
-"    if !exists('g:deoplete#sources')
-"        let g:deoplete#sources = {}
-"    endif
-"    let g:deoplete#sources.php = ['phpcd', 'phpactor', 'userfunc', 'ultisnips', 'tags', 'buffer']
-"    let g:deoplete#sources.yml = ['userfunc', 'tags', 'buffer']
-"
-"    "     let g:deoplete#sources#padawan#add_parentheses = 1
-"    "     let g:deoplete#sources#padawan#auto_update = 1
-"    let g:deoplete#skip_chars = ['$']
-"    let g:deoplete#enable_refresh_always = 1
-"
-"    let g:deoplete#enable_at_startup = 1
-"    let g:deoplete#auto_complete_delay=50
-"
-"    " TAB complete
-"    " deoplete tab-complete
-"endif
-
 " YouCompleteMe
 " These are the tweaks I apply to YCM's config, you don't need them but they might help.
 " YCM gives you popups and splits by default that some people might not like, so these should tidy it up a bit for you.
@@ -193,41 +155,6 @@ if !(has('nvim'))
     let g:ycm_auto_trigger = 1
     set completeopt-=preview
 endif
-set completeopt=longest,menuone
-
-" autocomplete tab to scroll up/down. Bonus feature - S-tab unindent
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<Tab>"
-inoremap <expr><S-tab> pumvisible() ? "\<c-p>" : "\<C-d>"
-
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" inoremap <silent><expr> <C-space>
-"             \ pumvisible() ? "\<C-n>" :
-"             \ <SID>check_back_space() ? "\<TAB>" :
-"             \ deoplete#mappings#manual_complete()
-" function! s:check_back_space() abort "{{{
-"     let col = col('.') - 1
-"     return !col || getline('.')[col - 1]  =~ '\s'
-" endfunction"}}}
-
-
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-"
-"  open omni completion menu closing previous if open and opening new menu without changing the text
-" inoremap <expr><C-Space> pumvisible() ? "\<C-n>" :
-"         \ <SID>check_back_space() ? "\<C-Space>" :
-"         \ deoplete#mappings#manual_complete()
-"         function! s:check_back_space() abort "{{{
-"       let col = col('.') - 1
-"       return !col || getline('.')[col - 1]  =~ '\s'
-"         endfunction"}}}
-" " open user completion menu closing previous if open and opening new menu without changing the text
-inoremap <expr> <S-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
- 
-
-"tern-js
-let g:tern_show_argument_hints='on_hold'
-let g:tern_map_keys=1
 
 
 "" vim-grepper
@@ -249,19 +176,6 @@ if (!exists("g:grepper"))
     let g:grepper.simple_prompt = 1
     let g:grepper.rg = {'escape': '\^$.*+?()[]{}|', 'grepformat': '%f:%l:%c:%m', 'grepprg': 'rg -HSF  --no-heading --vimgrep'}
 endif
-
-
-
-"" UltiSnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<M-e>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-"let g:UltiSnipsEditSplit="vertical"
-
-
 
 
 " vim-markdown-preview
@@ -290,10 +204,42 @@ let g:colorizer_auto_color = 0
 " let g:colorizer_auto_filetype = 'less,scss,sass,css,html'
 let g:colorizer_skip_comments = 1
 
+
 " vim-closetags
-"
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.js,*.jsx,*.twig"
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.js,*.twig'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
+
+
+" ncm2
+set shortmess+=c
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANTE: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+au User Ncm2Plugin call ncm2#register_source({
+            \ 'name' : 'css',
+            \ 'priority': 9, 
+            \ 'subscope_enable': 1,
+            \ 'scope': ['css','scss'],
+            \ 'mark': 'css',
+            \ 'word_pattern': '[\w\-]+',
+            \ 'complete_pattern': ':\s*',
+            \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+            \ })
+
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" autocomplete tab to scroll up/down. Bonus feature - S-tab unindent
+" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<Tab>"
+" inoremap <expr><S-tab> pumvisible() ? "\<c-p>" : "\<C-d>"
+
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+"  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+"inoremap <expr> <S-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+ 

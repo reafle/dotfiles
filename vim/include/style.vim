@@ -6,21 +6,11 @@ if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 endif
 
-" " PaperColor
-" set t_Co=256   " This is may or may not needed.
-" 
-" set background=dark
-"colorscheme PaperColor
-
-" colorscheme base16-default-dark
-" let base16colorspace=256
-
 " Setting the whitespace characters
 set listchars=eol:$,tab:>·,trail:~,extends:>,precedes:<
 set list
 
 "" Add some distinction to active window
-"hi CursorLine guibg=#303000 ctermbg=8 cterm=none term=none
 augroup BgHighlight
     au!
     au VimEnter,WinEnter,BufWinEnter * setlocal cul

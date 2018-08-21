@@ -23,8 +23,6 @@ Plug 'yssl/QFEnter'
 Plug 'mattn/emmet-vim'
 Plug 'chrisbra/Colorizer'
 Plug 'sbdchd/neoformat'
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
@@ -47,8 +45,18 @@ if (has('nvim'))
     Plug 'Shougo/neoinclude.vim'
     Plug 'Shougo/echodoc.vim'
 
-    Plug 'roxma/nvim-completion-manager'
-    Plug 'roxma/ncm-phpactor'
+    Plug 'ncm2/ncm2'
+    Plug 'roxma/nvim-yarp'
+    Plug 'ncm2/ncm2-abbrfuzzy'
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-cssomni'
+    Plug 'ncm2/ncm2-html-subscope'
+    Plug 'ncm2/ncm2-markdown-subscope'
+    Plug 'ncm2/ncm2-match-highlight'
+    Plug 'ncm2/ncm2-path'
+    Plug 'ncm2/ncm2-tagprefix'
+    Plug 'ncm2/ncm2-tmux'
+    Plug 'phpactor/ncm2-phpactor'
 else 
     Plug 'Valloric/YouCompleteMe'
 endif
@@ -64,6 +72,10 @@ Plug 'Rican7/php-doc-modded'
 Plug 'qbbr/vim-symfony'
 Plug 'docteurklein/php-getter-setter.vim'
 Plug 'phpactor/phpactor' ,  {'do': 'composer install'}
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " Twig / jinja2 syntax
 Plug 'lumiliet/vim-twig'
@@ -73,6 +85,7 @@ Plug 'chase/vim-ansible-yaml'
 
 " HTML 
 Plug 'alvan/vim-closetag'
+
 " CSS / SCSS
 Plug 'cakebaker/scss-syntax.vim'
 
@@ -83,13 +96,9 @@ Plug 'tpope/vim-fugitive'
 " Plug 'jelera/vim-javascript-syntax'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'marijnh/tern_for_vim'
 
 " Coffeescript O_o ?
 Plug 'kchmck/vim-coffee-script'
-if has('nvim')
-    " Plug 'lukaszkorecki/CoffeeTags'
-endif
 
 " Elixir
 Plug 'elixir-lang/vim-elixir'
