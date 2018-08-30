@@ -53,6 +53,14 @@ for file in "${files[@]}"; do
     fi;
 done
 
+# Install ONI config
+printf %b "${YELLOW}Installing oni configs...${NC}"
+cd ~
+mkdir ~/.config/oni -p
+ln -s $dir/oni/config.tsx ~/.config/oni/ &> /dev/null
+ln -s $dir/oni/snippets ~/.config/oni/ &> /dev/null
+printf %b "${GREEN} OK${NC}\n"
+
 # Install you-complete-me (VIM environments only)
 if [ ${USE_NVIM} = 0 ]; then 
     echo -e "${YELLOW}Installing VIM you complete me plugin...${NC}"
@@ -134,19 +142,6 @@ EOF
         printf %b "${GREEN} OK${NC}\n"
     else
         printf %b "${YELLOW} skipped${NC}\n"
-fi;
-
-
-# tern_for_vim requirements
-printf %b "${YELLOW}Installing tern_for_vim deps...${NC}\n"
-command -v npm &> /dev/null
-if [ $? = 0 ]; then 
-    pushd ~/.vim/plugged/tern_for_vim/ > /dev/null
-    npm install
-    popd > /dev/null
-    printf %b "${GREEN}OK${NC}\n"
-else
-    printf %b "${RED}*** ERROR: npm is not found${NC}\n"
 fi;
 
 printf %b "${GREEN}Finished.${NC}\n"

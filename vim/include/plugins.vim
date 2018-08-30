@@ -72,9 +72,17 @@ Plug 'Rican7/php-doc-modded'
 Plug 'qbbr/vim-symfony'
 Plug 'docteurklein/php-getter-setter.vim'
 Plug 'phpactor/phpactor' ,  {'do': 'composer install'}
+
+
+" Lanuage server 
+let language_client_post_install = [
+    \ 'bash install.sh',
+    \ '(yarn global add javascript-typescript-langserver || echo "failed to install javascript-typescript-langserver" )',
+    \ ]
+
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
+    \ 'do': join(language_client_post_install, ' && '),
     \ }
 
 " Twig / jinja2 syntax

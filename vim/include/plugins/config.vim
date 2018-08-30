@@ -186,11 +186,15 @@ let vim_markdown_preview_temp_file=1
 
 
 " LanguageClient
-"noremap <Leader>ld :call LanguageClient_textDocument_definition()<cr>
-"noremap <Leader>lh :call LanguageClient_textDocument_hover()<cr>
-"noremap <Leader>lr :call LanguageClient_textDocument_rename()<cr>
-"noremap <Leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
-"noremap <Leader>lf :call LanguageClient_textDocument_references()<cr>
+"" Automatically start language servers.
+let g:LanguageClient_serverCommands = get(g:, 'LanguageClient_serverCommands', {})
+" let g:LanguageClient_hoverPreview='never'
+
+noremap <Leader>ld :call LanguageClient_textDocument_definition()<cr>
+noremap <Leader>lh :call LanguageClient_textDocument_hover()<cr>
+noremap <Leader>lr :call LanguageClient_textDocument_rename()<cr>
+noremap <Leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
+noremap <Leader>lf :call LanguageClient_textDocument_references()<cr>
 
 " echodoc
 if has('nvim')

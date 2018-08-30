@@ -28,16 +28,6 @@ nnoremap <Leader>pd call PhpDocSingle()<CR>
 vnoremap <Leader>pd :call PhpDocRange()<CR> 
 imap <Leader>pd paste<CR>:exe PhpDoc()<CR>:set nopaste<CR>i
 
-
-" deoplete-padawan
-" command! PadawanStart call deoplete#sources#padawan#StartServer()
-" command! PadawanStop call deoplete#sources#padawan#StopServer()
-" command! PadawanRestart call deoplete#sources#padawan#RestartServer()
-" command! PadawanInstall call deoplete#sources#padawan#InstallServer()
-" command! PadawanUpdate call deoplete#sources#padawan#UpdateServer()
-" command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
-
-
 " phpcd
 let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
 let g:deoplete#ignore_sources.php = ['omni']
@@ -61,3 +51,4 @@ vmap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
 """ vim-symfony
 " let g:symfony_app_console_path = "bin/console"
 "map <leader>sc :execute ":!"g:symfony_enable_shell_cmd<CR>
+
