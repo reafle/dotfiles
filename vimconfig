@@ -12,11 +12,12 @@ source ~/dotfiles/vim/include/style.vimconfig
 
 """"""""" Language specific config  """"""""""
 
+source ~/dotfiles/vim/include/plugins/config.vimconfig
+
 source ~/dotfiles/vim/include/toolbox/php.vimconfig
 source ~/dotfiles/vim/include/toolbox/js.vimconfig
 source ~/dotfiles/vim/include/toolbox/scala.vimconfig
 "
-source ~/dotfiles/vim/include/plugins/config.vimconfig
 "
 """ TODO """
 

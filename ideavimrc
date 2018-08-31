@@ -24,4 +24,7 @@ set nobomb          " no Byte Order Mark for UTF-8
 set colorcolumn=80
 set synmaxcol=2500               " dont highlight long lines
 
-nnoremap ; :
+set relativenumbers
+set surround
+
+source ~/dotfiles/vim/include/keymap.vimconfig
