@@ -45,8 +45,18 @@ if (has('nvim'))
     Plug 'Shougo/neoinclude.vim'
     Plug 'Shougo/echodoc.vim'
 
-    Plug 'roxma/nvim-completion-manager'
-    Plug 'roxma/ncm-phpactor'
+    Plug 'ncm2/ncm2'
+    Plug 'roxma/nvim-yarp'
+    Plug 'ncm2/ncm2-abbrfuzzy'
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-cssomni'
+    Plug 'ncm2/ncm2-html-subscope'
+    Plug 'ncm2/ncm2-markdown-subscope'
+    Plug 'ncm2/ncm2-match-highlight'
+    Plug 'ncm2/ncm2-path'
+    Plug 'ncm2/ncm2-tagprefix'
+    Plug 'ncm2/ncm2-tmux'
+    Plug 'phpactor/ncm2-phpactor'
 else 
     Plug 'Valloric/YouCompleteMe'
 endif
@@ -63,11 +73,26 @@ Plug 'qbbr/vim-symfony'
 Plug 'docteurklein/php-getter-setter.vim'
 Plug 'phpactor/phpactor' ,  {'do': 'composer install'}
 
+
+" Lanuage server 
+let language_client_post_install = [
+    \ 'bash install.sh',
+    \ '(yarn global add javascript-typescript-langserver || echo "failed to install javascript-typescript-langserver" )',
+    \ ]
+
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': join(language_client_post_install, ' && '),
+    \ }
+
 " Twig / jinja2 syntax
 Plug 'lumiliet/vim-twig'
 
 " Ansible / YAML parsing
 Plug 'chase/vim-ansible-yaml'
+
+" HTML 
+Plug 'alvan/vim-closetag'
 
 " CSS / SCSS
 Plug 'cakebaker/scss-syntax.vim'
@@ -79,13 +104,9 @@ Plug 'tpope/vim-fugitive'
 " Plug 'jelera/vim-javascript-syntax'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'marijnh/tern_for_vim'
 
 " Coffeescript O_o ?
 Plug 'kchmck/vim-coffee-script'
-if has('nvim')
-    " Plug 'lukaszkorecki/CoffeeTags'
-endif
 
 " Elixir
 Plug 'elixir-lang/vim-elixir'

@@ -1,11 +1,11 @@
 """"""""""Main configuration"""""""""" 
 
 if !(has('nvim'))
-    source ~/dotfiles/vim/include/general.vim.vimconfig
+    source ~/dotfiles/vim/include/general.vim.vim
 endif
 
 if (has('nvim'))
-    source ~/dotfiles/vim/include/general.nvim.vimconfig
+    source ~/dotfiles/vim/include/general.nvim.vim
 endif
 
 filetype on         " autodetect the current file type
@@ -79,7 +79,6 @@ set wildignore+=/packaged
 
 " custom filetype syntax highlight settings
 autocmd BufRead,BufNewFile *.dry set filetype=dry
-autocmd BufRead,BufNewFile *.vimconfig set ft=vim
 
 " Tell vim to remember certain things when we exit
 "  '10  :  marks will be remembered for up to 10 previously edited files

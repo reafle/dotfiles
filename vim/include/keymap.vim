@@ -39,3 +39,5 @@ nnoremap Y y$
 nnoremap ; :
 vnoremap ; :
 
+" in terminal mode - esc = back to normal
+tnoremap <Esc> <C-\><C-n> 

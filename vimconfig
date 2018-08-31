@@ -4,21 +4,20 @@
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/bin/python3'
 
-source ~/dotfiles/vim/include/general.vimconfig
+source ~/dotfiles/vim/include/general.vim
 
-source ~/dotfiles/vim/include/plugins.vimconfig
-source ~/dotfiles/vim/include/keymap.vimconfig
-source ~/dotfiles/vim/include/style.vimconfig
+source ~/dotfiles/vim/include/plugins.vim
+source ~/dotfiles/vim/include/keymap.vim
+source ~/dotfiles/vim/include/style.vim
 
 """"""""" Language specific config  """"""""""
 
-source ~/dotfiles/vim/include/plugins/config.vimconfig
+source ~/dotfiles/vim/include/plugins/config.vim
 
-source ~/dotfiles/vim/include/toolbox/php.vimconfig
-source ~/dotfiles/vim/include/toolbox/js.vimconfig
-source ~/dotfiles/vim/include/toolbox/scala.vimconfig
-"
-"
+source ~/dotfiles/vim/include/toolbox/php.vim
+source ~/dotfiles/vim/include/toolbox/js.vim
+source ~/dotfiles/vim/include/toolbox/scala.vim
+
 """ TODO """
 
 " Here goes list of ideas not to forget to do them
