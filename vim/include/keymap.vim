@@ -43,4 +43,4 @@ nnoremap ; :
 vnoremap ; :
 
 " in terminal mode - esc = back to normal
-tnoremap <Esc> <C-\><C-n> 
+" tnoremap <Esc> <C-\><C-n> 

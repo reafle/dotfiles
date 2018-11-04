@@ -41,3 +41,8 @@ let g:tagbar_type_javascript = {
       \ 'ntype' : 'n'
       \ },
       \}
+
+
+" npm install -g import-js
+"
+autocmd FileType js,javascript,javascript.jsx, noremap <Leader>u :ImportJSWord<CR>

@@ -21,6 +21,14 @@ export PATH="/usr/local/sbin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
+# scripts
+if [ -d "$HOME/development/scripts/bin"  ] ; then
+    export PATH="$HOME/development/scripts/bin:$PATH"
+    if [ -f "$HOME/development/scripts/bin/fssfb"  ] ; then
+        alias fssfb="FSS_REPOS_LOCATION=$HOME/projects/fss fssfb"
+    fi;
+fi;
+
 export FZF_DEFAULT_COMMAND='ag --hidden --skip-vcs-ignore --ignore ~/.agignore -g ""'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 

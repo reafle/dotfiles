@@ -104,6 +104,7 @@ Plug 'tpope/vim-fugitive'
 " Plug 'jelera/vim-javascript-syntax'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'Galooshi/vim-import-js'
 
 " Coffeescript O_o ?
 Plug 'kchmck/vim-coffee-script'

@@ -27,4 +27,7 @@ set synmaxcol=2500               " dont highlight long lines
 set relativenumbers
 set surround
 
-source ~/dotfiles/vim/include/keymap.vimconfig
+set clipboard+=unnamed " set a single clipboard to intellij
+
+source ~/dotfiles/vim/include/keymap.vim
+source ~/dotfiles/vim/include/keymap.ideavim.vim
