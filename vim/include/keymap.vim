@@ -28,6 +28,9 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <M-a> <C-a>
 nnoremap <M-x> <C-x>
 
+vnoremap <M-a> <C-a>
+vnoremap <M-x> <C-x>
+
 " Window resize using <Leader>= and <Leader>-
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
