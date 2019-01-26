@@ -93,7 +93,7 @@ autocmd FileType php let b:surround_45 = "<?php \r ?>"
 "" Ag
 " Tweak to be able to pass parameters to Ag
 function! s:ag_in(...)
-  call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+  call fzf#vim#rg(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
 endfunction
 
 command! -nargs=+ -complete=dir AgIn call s:ag_in(<f-args>)
@@ -159,7 +159,7 @@ endif
 
 "" vim-grepper
 if executable('rg')
-    nnoremap <leader>gg :Grepper -tool rg -query 
+    nnoremap <leader>gg :Grepper -tool rg -query <CR>
 else 
     nnoremap <leader>gg :Grepper -tool grep
 endif
@@ -195,6 +195,11 @@ noremap <Leader>lh :call LanguageClient_textDocument_hover()<cr>
 noremap <Leader>lr :call LanguageClient_textDocument_rename()<cr>
 noremap <Leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
 noremap <Leader>lf :call LanguageClient_textDocument_references()<cr>
+noremap <Leader>ll :call LanguageClient_contextMenu()<cr>
+
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_diagnosticsEnable=0 " use ALE instead?
+let g:LanguageClient_diagnosticsList="Location"
 
 " echodoc
 if has('nvim')

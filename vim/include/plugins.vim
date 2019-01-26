@@ -45,6 +45,8 @@ if (has('nvim'))
     Plug 'Shougo/neoinclude.vim'
     Plug 'Shougo/echodoc.vim'
 
+    Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+
     Plug 'ncm2/ncm2'
     Plug 'roxma/nvim-yarp'
     Plug 'ncm2/ncm2-abbrfuzzy'

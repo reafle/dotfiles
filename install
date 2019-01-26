@@ -21,6 +21,7 @@ declare -a files=(
 "ctags"
 "htmlhintrc"
 "Xresources" "xinitrc"
+"Xmodmap"
 )
 
 echo -e "${YELLOW}Creating $olddir for backup of any existing dotfiles in home and copy files${NC}"
@@ -30,7 +31,7 @@ for file in "${files[@]}"; do
     if [ ! -f ~/.$file ]; then 
         cd $dir
         cd ~
-        mv .$file $olddir
+        mv .$file $olddir &> /dev/null
         ln -s $dir/$file .$file &> /dev/null
         printf %b "${GREEN} OK${NC}\n"
     else
@@ -120,6 +121,7 @@ bash $dir/vim/colors/install_colors
 # Since we symlink both files...seems redundant TODO check if happens automatically
 printf %b "${YELLOW}Creating nvim config...${NC}"
 if [ ! -f ~/.config/nvim/init.vim ]; then 
+mkdir -p ~/.config/nvim && touch ~/.config/nvim/init.vim 
 cat <<'EOF' > ~/.config/nvim/init.vim
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
@@ -133,7 +135,7 @@ fi;
 # Installing python debugging protocol for vim-vdebug
 # Usage: python-debug <script.py>
 printf %b "${YELLOW}Installing python debugging tool for vdebug...${NC}"
-if [ ! -f ~/.local/bin/python-debug ]; then 
+if [ ! -f ~/.local/bin/python-debug ]; then
     cd /tmp && wget -qO- http://downloads.activestate.com/Komodo/releases/10.2.3/remotedebugging/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64.tar.gz > /dev/null | tar xvz && mv /tmp/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64/ ~/.python-debugger-client && mv ~/.python-debugger-client/pythonlib/dbgp ~/.python-debugger-client/
 cat <<'EOF' > ~/.local/bin/python-debug
 #!/bin/bash
@@ -144,5 +146,17 @@ EOF
     else
         printf %b "${YELLOW} skipped${NC}\n"
 fi;
+
+# Installing base16-shell
+if [ ! -d ~/.config/base16-shell ]; then
+    printf %b "${YELLOW}Installing base16-shell...${NC}\n"
+    git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell && printf %b "${GREEN} OK${NC}\n"
+fi;
+
+# installing import-js
+printf %b "${YELLOW}Installing import-js...${NC}"
+command -v importjs &> /dev/null && printf %b "${YELLOW}skipped${NC}\n" || {
+    yarn global add import-js --silent && printf %b "${GREEN} OK${NC}\n"
+}
 
 printf %b "${GREEN}Finished.${NC}\n"

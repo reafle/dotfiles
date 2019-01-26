@@ -14,7 +14,7 @@ set ruler           " show ruler with cursor position
 set incsearch       " do incremental searching (search for pattern while it is being typed)
 "set wrap            " wrap long lines
 set mouse=a         " full mouse support
-set number          " show line numbers
+set number          " show relative line numbers
 set ttyfast         " smooth changes (indicates fast terminal connection)
 "set modeline        " last lines in documents can have options for vim editors (see :help modeline)
 "set modelines=5     " number lines checked for modelines (5 is default)

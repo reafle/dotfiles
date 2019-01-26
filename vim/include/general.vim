@@ -28,7 +28,7 @@ set smartindent     " see :help indenting
 set ruler           " show ruler with cursor position
 set incsearch       " do incremental searching (search for pattern while it is being typed)
 set nowrap          " don't wrap long lines
-set mouse=v         " full mouse support
+set mouse=a         " full mouse support
 set number          " show line numbers
 set ttyfast         " smooth changes (indicates fast terminal connection)
 set lazyredraw      " smoother redraw

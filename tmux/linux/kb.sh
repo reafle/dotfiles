@@ -1,2 +1,2 @@
 #!/bin/bash
-command -v xkblayout-state > /dev/null 2>&1 && xkblayout-state print %s
+command -v /home/oleg/.local/bin/xkblayout-state > /dev/null 2>&1 && /home/oleg/.local/bin/xkblayout-state print %s
