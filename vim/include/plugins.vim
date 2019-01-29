@@ -121,8 +121,4 @@ Plug 'leafgarland/typescript-vim'
 " Markdown
 Plug 'JamshedVesuna/vim-markdown-preview'
 
-" Scala
-Plug 'ensime/ensime-vim', { 'do': ':UpdateRemotePlugins' }
-Plug 'derekwyatt/vim-scala'
-
 call plug#end()

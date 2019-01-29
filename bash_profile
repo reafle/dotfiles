@@ -17,7 +17,8 @@ if [ -d "$HOME/.composer/vendor/bin"  ] ; then
     PATH=$PATH:$HOME/.composer/vendor/bin
 fi
 
-source "$HOME/dotfiles/git-completion.bash"
+source "$HOME/dotfiles/git-completion.bash" && __git_complete g __git_main
+
 
 export PATH="/usr/local/sbin:$PATH"
 
@@ -31,6 +32,10 @@ fi;
 
 
 # scripts
+if [ -d "$HOME/.local/bin"  ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi;
+
 if [ -d "$HOME/development/scripts/bin"  ] ; then
     export PATH="$HOME/development/scripts/bin:$PATH"
     if [ -f "$HOME/development/scripts/bin/fssfb"  ] ; then
@@ -42,8 +47,10 @@ fi;
 # export FZF_DEFAULT_COMMAND='rg --column --line-number --no-heading --color=always --smart-case'
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+[ -z "$SSH_AUTH_SOCK" ] && eval "$(ssh-agent -s)"
 
 ### Adding snaps! ###
 export PATH="/snap/bin:$PATH"
 
 export EDITOR=/usr/bin/nvim
+

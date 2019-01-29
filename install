@@ -136,7 +136,7 @@ fi;
 # Usage: python-debug <script.py>
 printf %b "${YELLOW}Installing python debugging tool for vdebug...${NC}"
 if [ ! -f ~/.local/bin/python-debug ]; then
-    cd /tmp && wget -qO- http://downloads.activestate.com/Komodo/releases/10.2.3/remotedebugging/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64.tar.gz > /dev/null | tar xvz && mv /tmp/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64/ ~/.python-debugger-client && mv ~/.python-debugger-client/pythonlib/dbgp ~/.python-debugger-client/
+    cd /tmp && wget -qO- http://downloads.activestate.com/Komodo/releases/10.2.3/remotedebugging/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64.tar.gz | tar xvz && mv /tmp/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64/ ~/.python-debugger-client && mv ~/.python-debugger-client/pythonlib/dbgp ~/.python-debugger-client/
 cat <<'EOF' > ~/.local/bin/python-debug
 #!/bin/bash
 python -S ~/.python-debugger-client/pydbgp -d localhost:9000 "$@"
