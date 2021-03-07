@@ -22,7 +22,6 @@ Plug 'mhinz/vim-grepper'
 Plug 'yssl/QFEnter'
 Plug 'mattn/emmet-vim'
 Plug 'chrisbra/Colorizer'
-Plug 'sbdchd/neoformat'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
@@ -30,13 +29,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'SirVer/ultisnips'
 
 " Common programming / general development
+Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
 if !(has('nvim'))
     Plug 'vim-scripts/AutoComplPop'
 endif
 
 Plug 'majutsushi/tagbar'
-Plug 'w0rp/ale'
 
 if (has('nvim'))
     Plug 'Shougo/context_filetype.vim'
@@ -45,21 +44,8 @@ if (has('nvim'))
     Plug 'Shougo/neoinclude.vim'
     Plug 'Shougo/echodoc.vim'
 
-    Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-
-    Plug 'ncm2/ncm2'
-    Plug 'roxma/nvim-yarp'
-    Plug 'ncm2/ncm2-abbrfuzzy'
-    Plug 'ncm2/ncm2-bufword'
-    Plug 'ncm2/ncm2-cssomni'
-    Plug 'ncm2/ncm2-html-subscope'
-    Plug 'ncm2/ncm2-markdown-subscope'
-    Plug 'ncm2/ncm2-match-highlight'
-    Plug 'ncm2/ncm2-path'
-    Plug 'ncm2/ncm2-tagprefix'
-    Plug 'ncm2/ncm2-tmux'
-    Plug 'phpactor/ncm2-phpactor'
-else 
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+else
     Plug 'Valloric/YouCompleteMe'
 endif
 
@@ -75,18 +61,6 @@ Plug 'qbbr/vim-symfony'
 Plug 'docteurklein/php-getter-setter.vim'
 Plug 'phpactor/phpactor' ,  {'do': 'composer install'}
 
-
-" Lanuage server 
-let language_client_post_install = [
-    \ 'bash install.sh',
-    \ '(yarn global add javascript-typescript-langserver || echo "failed to install javascript-typescript-langserver" )',
-    \ ]
-
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': join(language_client_post_install, ' && '),
-    \ }
-
 " Twig / jinja2 syntax
 Plug 'lumiliet/vim-twig'
 
@@ -95,21 +69,16 @@ Plug 'chase/vim-ansible-yaml'
 
 " HTML 
 Plug 'alvan/vim-closetag'
+Plug 'briancollins/vim-jst'
+Plug 'nikvdp/ejs-syntax'
 
-" CSS / SCSS
-Plug 'cakebaker/scss-syntax.vim'
+" Mustache
+Plug 'mustache/vim-mustache-handlebars'
 
 "Git
 Plug 'tpope/vim-fugitive'
-
-" Javascript
-" Plug 'jelera/vim-javascript-syntax'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'Galooshi/vim-import-js'
-
-" Coffeescript O_o ?
-Plug 'kchmck/vim-coffee-script'
+Plug 'airblade/vim-gitgutter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Elixir
 Plug 'elixir-lang/vim-elixir'
@@ -117,8 +86,12 @@ Plug 'slashmili/alchemist.vim'
 
 " Typescript
 Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 " Markdown
 Plug 'JamshedVesuna/vim-markdown-preview'
+
+" Rockstar
+Plug 'sirosen/vim-rockstar'
 
 call plug#end()

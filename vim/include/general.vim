@@ -39,6 +39,7 @@ set synmaxcol=500   " dont highlight long lines
 set textwidth=0     " automatically break line when it exceeds this width
 set nolist          " dont split long lines to several lines upon editing that line
 
+set updatetime=100  " faster update time
 set winheight=15    " auto resize active split to 30 lines
 set winminheight=5  " min split height is 5 lines
 
@@ -47,8 +48,6 @@ set number          " enable line numbers
 
 set clipboard=unnamed " share the OS clipboard with vim + register
 set path+=** " append current dir to the path
-
-"" wildmenu - use TAB for :find and other file command suggestions
 
 set wildmenu
 set wildmode=list:longest,full
@@ -71,11 +70,7 @@ set wildignore+=/dist
 set wildignore+=packaged/
 set wildignore+=/packaged
 
-" Enables true color 
-" This is not needed on tmux, but may be needed on other platforms
-" set termguicolors
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set nofoldenable " Don't fold by default
 
 " custom filetype syntax highlight settings
 autocmd BufRead,BufNewFile *.dry set filetype=dry

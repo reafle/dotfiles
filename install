@@ -15,11 +15,9 @@ olddir=~/.dotfiles.bak
 declare -a files=(
 "agignore"
 "ideavimrc"
-"bashrc" "bash_profile" "bash_aliases" 
+"bashrc" "bash_profile" "bash_aliases"
 "vim"
 "tmux.conf" 
-"ctags"
-"htmlhintrc"
 "Xresources" "xinitrc"
 "Xmodmap"
 )
@@ -55,31 +53,6 @@ for file in "${files[@]}"; do
     fi;
 done
 
-# Install ONI config
-printf %b "${YELLOW}Installing oni configs...${NC}"
-cd ~
-mkdir ~/.config/oni -p
-ln -s $dir/oni/config.tsx ~/.config/oni/ &> /dev/null
-ln -s $dir/oni/snippets ~/.config/oni/ &> /dev/null
-printf %b "${GREEN} OK${NC}\n"
-
-# Install you-complete-me (VIM environments only)
-if [ ${USE_NVIM} = 0 ]; then 
-    echo -e "${YELLOW}Installing VIM you complete me plugin...${NC}"
-   # command -v cmake &> /dev/null
-   # echo "Compiling YouCompleteMe binaries..."
-   # command -v cmake &> /dev/null
-   # if [ $? = 0 ]; then 
-   #     pushd ~/.vim/plugged/YouCompleteMe
-   #     ./install.py --tern-completer
-   #     popd
-   # else
-   #     echo -e "${RED}*** ERROR: cmake is not found${NC}"
-   # fi;
-
-   # vim +PlugUpdate +qall
-fi;
-
 #install git-completion
 printf %b "${YELLOW}Installing git completion...${NC}"
 if [ ! -f $dir/git-completion.bash ]; then 
@@ -114,9 +87,9 @@ else
     printf %b "${YELLOW}skipped${NC}\n"
 fi;
 
-# Install vim fancy colors
-echo -e "${YELLOW}Installing vim colorschemes...${NC}"
-bash $dir/vim/colors/install_colors
+## Install vim fancy colors
+#echo -e "${YELLOW}Installing vim colorschemes...${NC}"
+#bash $dir/vim/colors/install_colors
 
 # Since we symlink both files...seems redundant TODO check if happens automatically
 printf %b "${YELLOW}Creating nvim config...${NC}"
@@ -134,29 +107,23 @@ fi;
 
 # Installing python debugging protocol for vim-vdebug
 # Usage: python-debug <script.py>
-printf %b "${YELLOW}Installing python debugging tool for vdebug...${NC}"
-if [ ! -f ~/.local/bin/python-debug ]; then
-    cd /tmp && wget -qO- http://downloads.activestate.com/Komodo/releases/10.2.3/remotedebugging/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64.tar.gz | tar xvz && mv /tmp/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64/ ~/.python-debugger-client && mv ~/.python-debugger-client/pythonlib/dbgp ~/.python-debugger-client/
-cat <<'EOF' > ~/.local/bin/python-debug
-#!/bin/bash
-python -S ~/.python-debugger-client/pydbgp -d localhost:9000 "$@"
-EOF
-    chmod +x ~/.local/bin/python-debug
-        printf %b "${GREEN} OK${NC}\n"
-    else
-        printf %b "${YELLOW} skipped${NC}\n"
-fi;
+#printf %b "${YELLOW}Installing python debugging tool for vdebug...${NC}"
+#if [ ! -f ~/.local/bin/python-debug ]; then
+#    cd /tmp && wget -qO- http://downloads.activestate.com/Komodo/releases/10.2.3/remotedebugging/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64.tar.gz | tar xvz && mv /tmp/Komodo-PythonRemoteDebugging-10.2.3-89902-linux-x86_64/ ~/.python-debugger-client && mv ~/.python-debugger-client/pythonlib/dbgp ~/.python-debugger-client/
+#cat <<'EOF' > ~/.local/bin/python-debug
+##!/bin/bash
+#python -S ~/.python-debugger-client/pydbgp -d localhost:9000 "$@"
+#EOF
+#    chmod +x ~/.local/bin/python-debug
+#        printf %b "${GREEN} OK${NC}\n"
+#    else
+#        printf %b "${YELLOW} skipped${NC}\n"
+#fi;
 
 # Installing base16-shell
 if [ ! -d ~/.config/base16-shell ]; then
     printf %b "${YELLOW}Installing base16-shell...${NC}\n"
     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell && printf %b "${GREEN} OK${NC}\n"
 fi;
-
-# installing import-js
-printf %b "${YELLOW}Installing import-js...${NC}"
-command -v importjs &> /dev/null && printf %b "${YELLOW}skipped${NC}\n" || {
-    yarn global add import-js --silent && printf %b "${GREEN} OK${NC}\n"
-}
 
 printf %b "${GREEN}Finished.${NC}\n"

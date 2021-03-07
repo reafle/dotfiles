@@ -30,4 +30,4 @@ XTerm*foreground:  rgb:ff/af/5f
 XTerm*background:  rgb:00/00/00
 XTerm*cursorColor: rgb:d7/5f/00
 
-Xcursor.size: 16
+Xcursor.size: 24

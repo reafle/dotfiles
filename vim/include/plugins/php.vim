@@ -2,12 +2,8 @@
 
 "" w0rp/ale 
 let g:ale_php_phpcs_options = '--exclude=Generic.Commenting.DocComment,Symfony.Commenting.License.Warning'
-" TODO: Timebase fix styling
-" let g:ale_php_phpcs_standard = 'symfony'
 let g:ale_php_phpcs_standard = 'PSR2'
-" TODO: timebase fix styling
 let g:ale_php_phpmd_ruleset = 'ruleset.xml'
-" let g:ale_php_phpmd_options = 'cleancode,codesize,controversial,design,naming,unusedcode'
 
 
 "" php-cs-fixer

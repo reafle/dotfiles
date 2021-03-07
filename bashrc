@@ -146,11 +146,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Redis clean short-hand
-function redis_clean() {
-    redis-cli KEYS $1 | xargs redis-cli DEL
-}
-
 ### Disable ctrl+s freezing the terminal ###
 stty -ixon
 
@@ -162,3 +157,12 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+
+#TW OVERRIDES
+if [ -f ~/.treatwellrc ]; then
+    . ~/.treatwellrc
+fi
+
+export NVM_DIR="/home/oleg-tw/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+

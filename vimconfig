@@ -13,10 +13,8 @@ source ~/dotfiles/vim/include/style.vim
 """"""""" Language specific config  """"""""""
 
 source ~/dotfiles/vim/include/plugins/config.vim
-
-source ~/dotfiles/vim/include/toolbox/php.vim
 source ~/dotfiles/vim/include/toolbox/js.vim
-source ~/dotfiles/vim/include/toolbox/scala.vim
+" source ~/dotfiles/vim/include/toolbox/python.vim
 
 """ TODO """
 

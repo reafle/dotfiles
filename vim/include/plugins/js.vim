@@ -1,48 +1,46 @@
+set cmdheight=2 "Better display for messages
+set shortmess+=c
 
-"" vim-javascript
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\}
+vmap <leader>ac <Plug>(coc-codeaction-selected)
+nmap <leader>ac  <Plug>(coc-codeaction)
 
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\}
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-let g:ale_fix_on_save = 1
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
-let g:neoformat_enabled_javascript = ['eslint']
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" Minimal LSP configuration for JavaScript
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-if (executable('javascript-typescript-stdio'))
-  let g:LanguageClient_serverCommands = get(g:, 'LanguageClient_serverCommands', {})
-  let g:LanguageClient_serverCommands['javascript'] = ['javascript-typescript-stdio']
-  let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
-  " Use LanguageServer for omnifunc completion
-  autocmd FileType javascript,javascript.jsx setlocal omnifunc=LanguageClient#complete
-endif
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-let g:tagbar_type_javascript = {
-      \ 'ctagstype' : 'javascript',
-      \ 'kinds' : [
-      \'a:const',
-      \'b:let',
-      \'d:var',
-      \'e:function',
-      \'h:class',
-      \],
-      \ 'sro' : '.',
-      \ 'kind2scope' : {
-      \ 't' : 'ctype',
-      \ 'n' : 'ntype'
-      \ },
-      \ 'scope2kind' : {
-      \ 'ctype' : 't',
-      \ 'ntype' : 'n'
-      \ },
-      \}
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
-" npm install -g import-js
-"
-autocmd FileType js,javascript,javascript.jsx, noremap <Leader>u :ImportJSWord<CR>
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" CoC-prettier 
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+vmap <leader>pf  <Plug>(coc-format-selected)
+nmap <leader>pf  <Plug>(coc-format-selected)

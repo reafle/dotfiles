@@ -35,7 +35,6 @@ web/assets/*
 web/assets_old/*
 
 # Vim ctag files
-.ctags
 tags
 tags.vendor
 

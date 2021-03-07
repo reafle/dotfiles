@@ -22,3 +22,6 @@ augroup END
 if &term =~ '256color'
     set t_ut=
 endif
+
+" Enables transparent bg
+hi Normal guibg=NONE ctermbg=NONE

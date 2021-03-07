@@ -1,4 +1,3 @@
-
 # Autoload bashrc 
 [[ -s ~/.bashrc ]] && source ~/.bashrc
 
@@ -30,6 +29,11 @@ if [ -d "$HOME/.config/yarn/global/node_modules/.bin"  ] ; then
     export PATH="$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 fi;
 
+# gems
+if [ -d "$HOME/.gem/ruby/2.5.0/bin"  ] ; then
+    export PATH="$HOME/.gem/ruby/2.5.0/bin:$PATH"
+fi;
+
 
 # scripts
 if [ -d "$HOME/.local/bin"  ] ; then
@@ -38,13 +42,9 @@ fi;
 
 if [ -d "$HOME/development/scripts/bin"  ] ; then
     export PATH="$HOME/development/scripts/bin:$PATH"
-    if [ -f "$HOME/development/scripts/bin/fssfb"  ] ; then
-        alias fssfb="FSS_REPOS_LOCATION=$HOME/projects/fss fssfb"
-    fi;
 fi;
 
-#export FZF_DEFAULT_COMMAND='ag --hidden --skip-vcs-ignore --ignore ~/.agignore -g ""'
-# export FZF_DEFAULT_COMMAND='rg --column --line-number --no-heading --color=always --smart-case'
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 [ -z "$SSH_AUTH_SOCK" ] && eval "$(ssh-agent -s)"
@@ -54,3 +54,12 @@ export PATH="/snap/bin:$PATH"
 
 export EDITOR=/usr/bin/nvim
 
+export NVM_DIR="/home/oleg-tw/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+#TW OVERRIDES
+[[ -s "$HOME/wahanda/dev-tools/aws/twist" ]] && eval "$(register-python-argcomplete twist)"
+
+if [ -f "$HOME/.local/bin/aws_completer"  ] ; then
+    complete -C 'aws_completer' aws
+fi;
