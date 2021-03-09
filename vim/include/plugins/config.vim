@@ -176,4 +176,4 @@ let g:gitgutter_max_signs = 1000
 
 
 " coc-vim
-let g:coc_node_path = "/home/oleg-tw/.nvm/versions/node/v14.15.1/bin/node"
+let g:coc_node_path = $HOME . "/.nvm/versions/node/v14.15.1/bin/node"

@@ -100,7 +100,7 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
 EOF
-    printf %b "${GREEN}OK${NC}\n"
+    printf %b "${GREEN}OK. Make sure to install pynvim, nvm and :checkhealth${NC}\n"
 else
     printf %b "${YELLOW}skipped${NC}\n"
 fi;
